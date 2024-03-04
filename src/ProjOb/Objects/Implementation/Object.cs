@@ -11,6 +11,7 @@ namespace ProjOb
     [JsonDerivedType(typeof(Flight), "Flight")]
     public abstract class Object
     {
+        [JsonPropertyOrder(-8)]
         public UInt64 ID { get; set; }
 
         public virtual void Populate(String[] props)
@@ -24,5 +25,7 @@ namespace ProjOb
                 throw new FormatException($"Failed to parse the object: {e.Message}", e);
             }
         }
+
+        public override string ToString() { return "Object"; }
     }
 }

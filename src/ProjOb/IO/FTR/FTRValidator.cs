@@ -52,9 +52,9 @@ namespace ProjOb.IO
 
 
                     String[]? plane;
-                    if (dict.TryGetValue(rec.Value[2], out plane))
+                    if (dict.TryGetValue(rec.Value[9], out plane))
                     {
-                        if (plane[0] != "CP" || targetAirport[0] != "PP")
+                        if (plane[0] != "CP" && plane[0] != "PP")
                         {
                             throw new DataIntegrityException("The object referenced by the Flight object should be either Cargo Plane or Passenger Plane.");
                         }
@@ -65,7 +65,7 @@ namespace ProjOb.IO
                     }
 
 
-                    String[] crews = rec.Value[9][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    String[] crews = rec.Value[10][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                     foreach (String id in crews)
                     {
                         String[]? crew;
@@ -82,13 +82,13 @@ namespace ProjOb.IO
                         }
                     }
 
-                    String[] loads = rec.Value[10][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    String[] loads = rec.Value[11][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                     foreach (String id in loads)
                     {
                         String[]? load;
                         if (dict.TryGetValue(id, out load))
                         {
-                            if (load[0] != "C" || load[0] != "P")
+                            if (load[0] != "CA" && load[0] != "P")
                             {
                                 throw new DataIntegrityException("The object referenced by the Flight object should be either Cargo or Passenger.");
                             }

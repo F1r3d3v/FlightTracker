@@ -4,17 +4,6 @@ namespace ProjOb.IO
 {
     internal class FTRLoader : ILoader
     {
-        private readonly Dictionary<string, string> factories = new()
-        {
-            { "C",  "Crew" },
-            { "P",  "Passenger" },
-            { "CA", "Cargo" },
-            { "CP", "CargoPlane" },
-            { "PP", "PassengerPlane" },
-            { "AI", "Airport" },
-            { "FL", "Flight"},
-        };
-
         public IReader reader { get; }
 
         public IValidator validator { get; }

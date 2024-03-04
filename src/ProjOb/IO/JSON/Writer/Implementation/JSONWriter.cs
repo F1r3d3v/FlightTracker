@@ -6,7 +6,10 @@ namespace ProjOb.IO
     {
         private StreamWriter _stream;
 
-        public JsonSerializerOptions Options { get; set; } = new() { WriteIndented = true };
+        public JsonSerializerOptions Options { get; set; } = new()
+        {
+            WriteIndented = true 
+        };
 
         internal JSONWriter(String path)
         {

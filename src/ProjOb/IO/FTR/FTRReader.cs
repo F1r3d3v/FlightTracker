@@ -19,7 +19,7 @@
 
         public void Reset()
         {
-            _stream.BaseStream.SetLength(0);
+            _stream.BaseStream.Position = 0;
         }
 
         public void Close()

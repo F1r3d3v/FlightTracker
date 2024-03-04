@@ -9,27 +9,30 @@
             {
                 UInt64 ID;
                 String flightID = flight.ID.ToString();
+                String originID = records[flightID][2];
+                String targetID = records[flightID][3];
+                String planeID = records[flightID][9];
 
-                ID = Convert.ToUInt64(records[flightID][1]);
+                ID = UInt64.Parse(originID);
                 flight.Origin = (Airport)objects.First(x => x.ID == ID);
 
-                ID = Convert.ToUInt64(records[flightID][2]);
+                ID = UInt64.Parse(targetID);
                 flight.Target = (Airport)objects.First(x => x.ID == ID);
 
-                ID = Convert.ToUInt64(records[flightID][8]);
+                ID = UInt64.Parse(planeID);
                 flight.Plane = (Plane)objects.First(x => x.ID == ID);
 
-                String[] crews = records[flightID][9][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                String[] crews = records[flightID][10][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 foreach (String id in crews)
                 {
-                    ID = Convert.ToUInt64(id);
+                    ID = UInt64.Parse(id);
                     flight.Crews.Add((Crew)objects.First(x => x.ID == ID));
                 }
 
-                String[] loads = records[flightID][10][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                String[] loads = records[flightID][11][1..^1].Split(';', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                 foreach (String id in loads)
                 {
-                    ID = Convert.ToUInt64(id);
+                    ID = UInt64.Parse(id);
                     flight.Loads.Add((ILoad)objects.First(x => x.ID == ID));
                 }
             }
