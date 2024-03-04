@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ProjOb.IO
 {
@@ -8,6 +9,7 @@ namespace ProjOb.IO
 
         public JsonSerializerOptions Options { get; set; } = new()
         {
+            ReferenceHandler = ReferenceHandler.Preserve,
             WriteIndented = true 
         };
 
@@ -16,9 +18,9 @@ namespace ProjOb.IO
             _stream = new StreamWriter(path);
         }
 
-        public void Write(object[] objArr)
+        public void Write(Database database)
         {
-            String result = JsonSerializer.Serialize(objArr, Options);
+            String result = JsonSerializer.Serialize(database, Options);
             _stream.Write(result);
         }
 

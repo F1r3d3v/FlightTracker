@@ -2,7 +2,7 @@
 {
     internal class FTRParser : IParser
     {
-        private readonly Dictionary<string, Func<Object>> factories = new()
+        private readonly Dictionary<string, Func<dynamic>> factories = new()
         {
             { "C", () => new Crew() },
             { "P", () => new Passenger() },
@@ -13,16 +13,16 @@
             { "FL", () => new Flight() },
         };
 
-        public void Parse(Dictionary<String, String[]> records, List<Object> objects)
+        public void Parse(Dictionary<String, String[]> records, Database database)
         {
             foreach (var rec in records)
             {
                 String[] data = rec.Value;
                 if (factories.TryGetValue(data[0].ToUpperInvariant(), out var value))
                 {
-                    Object obj = value();
+                    dynamic obj = value();
                     obj.Populate(data[1..]);
-                    objects.Add(obj);
+                    database.Add(obj);
                 }
                 else
                 {

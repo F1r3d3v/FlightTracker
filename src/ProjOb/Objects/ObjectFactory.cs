@@ -4,10 +4,18 @@ namespace ProjOb
 {
     public static class ObjectFactory
     {
-        public static List<IGrouping<String?, Object>> Deserialize(String filepath)
+        public static void Serialize(Database database, String filepath)
+        {
+            IWriter wr = WriterFactory.Create(filepath) ?? throw new Exception("Can't create a file writer.");
+
+            wr.Write(database);
+            wr.Close();
+        }
+        public static Database Deserialize(String filepath)
         {
             ILoader loader = LoaderFactory.CreateLoader(filepath);
-            return loader.Load().GroupBy(x => x.ToString()).ToList();
+            loader.LoadToDatabase(out Database database);
+            return database;
         }
     }
 }
