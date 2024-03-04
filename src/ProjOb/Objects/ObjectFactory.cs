@@ -1,29 +1,13 @@
-﻿namespace ProjOb
+﻿using ProjOb.IO;
+
+namespace ProjOb
 {
     public static class ObjectFactory
     {
-        private static readonly Dictionary<string, Func<Parser>> factories = new()
+        public static List<IGrouping<String?, Object>> Deserialize(String filepath)
         {
-            { "C", () => new CrewParser() },
-            { "P", () => new PassengerParser() },
-            { "CA", () => new CargoParser() },
-            { "CP", () => new CargoPlaneParser() },
-            { "PP", () => new PassengerPlaneParser() },
-            { "AI", () => new AirportParser() },
-            { "FL", () => new FlightParser() },
-        };
-
-        public static Object? Create(String[] props)
-        {
-            if (factories.TryGetValue(props[0].ToUpperInvariant(), out var value))
-            {
-                return value().Parse(props);
-            }
-            else
-            {
-                Console.WriteLine($"Unknown type: {props[0]}");
-                return null;
-            }
+            ILoader loader = LoaderFactory.CreateLoader(filepath);
+            return loader.Load().GroupBy(x => x.ToString()).ToList();
         }
     }
 }

@@ -1,20 +1,26 @@
-﻿namespace ProjOb
+﻿using System.Diagnostics.Metrics;
+
+namespace ProjOb
 {
     public class Crew : Person
     {
         public UInt16 Practice { get; set; }
         public String? Role { get; set; }
 
-        internal Crew(CrewDTO data)
+        public override void Populate(String[] props)
         {
-            Type = data.Type;
-            ID = data.ID;
-            Name = data.Name;
-            Age = data.Age;
-            Phone = data.Phone;
-            Email = data.Email;
-            Practice = data.Practice;
-            Role = data.Role;
+            base.Populate(props);
+            try
+            {
+                Practice = UInt16.Parse(props[5]);
+                Role = props[6];
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException($"Failed to parse the object: {e.Message}", e);
+            }
         }
+
+        public override string ToString() { return "Crew"; }
     }
 }

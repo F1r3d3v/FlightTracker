@@ -2,31 +2,40 @@
 {
     public class Flight : Object
     {
-        public UInt64 Origin { get; set; }
-        public UInt64 Target { get; set; }
+        public Airport? Origin { get; set; }
+        public Airport? Target { get; set; }
         public String? TakeoffTime { get; set; }
         public String? LandingTime { get; set; }
         public Single Longitude { get; set; }
         public Single Latitude { get; set; }
         public Single AMSL { get; set; }
-        public UInt64 PlaneID { get; set; }
-        public UInt64[]? CrewIDs { get; set; }
-        public UInt64[]? LoadIDs { get; set; }
+        public Plane? Plane { get; set; }
+        public List<Crew> Crews { get; set; }
+        public List<ILoad> Loads { get; set; }
 
-        internal Flight(FlightDTO data)
+        public Flight()
         {
-            Type = data.Type;
-            ID = data.ID;
-            Origin = data.Origin;
-            Target = data.Target;
-            TakeoffTime = data.TakeoffTime;
-            LandingTime = data.LandingTime;
-            Longitude = data.Longitude;
-            Latitude = data.Latitude;
-            AMSL = data.AMSL;
-            PlaneID = data.PlaneID;
-            CrewIDs = data.CrewIDs;
-            LoadIDs = data.LoadIDs;
+            Crews = new List<Crew>();
+            Loads = new List<ILoad>();
         }
+
+        public override void Populate(String[] props)
+        {
+            base.Populate(props);
+            try
+            {
+                TakeoffTime = props[3];
+                LandingTime = props[4];
+                Longitude = Single.Parse(props[5]);
+                Latitude = Single.Parse(props[6]);
+                AMSL = Single.Parse(props[7]);
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException($"Failed to parse the object: {e.Message}", e);
+            }
+        }
+
+        public override string ToString() { return "Flight"; }
     }
 }

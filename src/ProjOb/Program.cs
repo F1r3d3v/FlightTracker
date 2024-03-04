@@ -4,29 +4,24 @@ namespace ProjOb
 {
     internal class Program
     {
+        public static void Serialize(object[] objs, String filepath)
+        {
+            IWriter wr = WriterFactory.Create(filepath) ?? throw new Exception("Can't create a file writer.");
+
+            wr.Write(objs);
+            wr.Close();
+        }
+
         static void Main(String[] args)
         {
-            List<Object> objList = [];
             String inputFilepath = (args.Length == 0) ? "example_data.ftr" : args[0];
-            String outputFilename = Path.GetFileNameWithoutExtension(inputFilepath);
+            String outputFilename = $"{Path.GetFileNameWithoutExtension(inputFilepath)}.json";
 
             Console.WriteLine("Loading ftr file!");
-            IReader rd = ReaderFactory.Create(inputFilepath) ?? throw new Exception("Can't create a file reader.");
-
-            String[]? s;
-            while ((s = rd.Read()) != null)
-            {
-                Object? obj = ObjectFactory.Create(s);
-                if (obj != null)
-                    objList.Add(obj);
-            }
-            rd.Close();
+            var objList = ObjectFactory.Deserialize(inputFilepath);
 
             Console.WriteLine("Serializing objects collection to json!");
-            IWriter wr = WriterFactory.Create($"{outputFilename}.json") ?? throw new Exception("Can't create a file writer.");
-
-            wr.Write([.. objList]);
-            wr.Close();
+            Serialize(objList.ToArray(), outputFilename);
 
             Console.WriteLine("Goodbye!");
         }

@@ -12,9 +12,14 @@
         public String[]? Read()
         {
             if (!_stream.EndOfStream)
-                return _stream.ReadLine()!.Split(',', StringSplitOptions.TrimEntries);
+                return _stream.ReadLine()!.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             else 
                 return null;
+        }
+
+        public void Reset()
+        {
+            _stream.BaseStream.SetLength(0);
         }
 
         public void Close()

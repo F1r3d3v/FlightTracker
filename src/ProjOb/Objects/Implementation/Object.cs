@@ -2,16 +2,27 @@
 
 namespace ProjOb
 {
-    [JsonDerivedType(typeof(Crew))]
-    [JsonDerivedType(typeof(Passenger))]
-    [JsonDerivedType(typeof(Cargo))]
-    [JsonDerivedType(typeof(CargoPlane))]
-    [JsonDerivedType(typeof(PassengerPlane))]
-    [JsonDerivedType(typeof(Airport))]
-    [JsonDerivedType(typeof(Flight))]
+    [JsonDerivedType(typeof(Crew), "Crew")]
+    [JsonDerivedType(typeof(Passenger), "Passenger")]
+    [JsonDerivedType(typeof(Cargo), "Cargo")]
+    [JsonDerivedType(typeof(CargoPlane), "CargoPlane")]
+    [JsonDerivedType(typeof(PassengerPlane), "PassengerPlane")]
+    [JsonDerivedType(typeof(Airport), "Airport")]
+    [JsonDerivedType(typeof(Flight), "Flight")]
     public abstract class Object
     {
-        public String? Type { get; set; }
         public UInt64 ID { get; set; }
+
+        public virtual void Populate(String[] props)
+        {
+            try
+            {
+                ID = Convert.ToUInt64(props[0]);
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException($"Failed to parse the object: {e.Message}", e);
+            }
+        }
     }
 }

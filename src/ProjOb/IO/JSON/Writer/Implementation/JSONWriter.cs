@@ -13,7 +13,7 @@ namespace ProjOb.IO
             _stream = new StreamWriter(path);
         }
 
-        public void Write(Object[] objArr)
+        public void Write(object[] objArr)
         {
             String result = JsonSerializer.Serialize(objArr, Options);
             _stream.Write(result);

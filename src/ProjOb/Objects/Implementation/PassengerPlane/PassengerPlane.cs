@@ -6,16 +6,21 @@
         public UInt16 BusinessClassSize { get; set; }
         public UInt16 EconomyClassSize { get; set; }
 
-        internal PassengerPlane(PassengerPlaneDTO data)
+        public override void Populate(String[] props)
         {
-            Type = data.Type;
-            ID = data.ID;
-            Serial = data.Serial;
-            Country = data.Country;
-            Model = data.Model;
-            FirstClassSize = data.FirstClassSize;
-            BusinessClassSize = data.BusinessClassSize;
-            EconomyClassSize = data.EconomyClassSize;
+            base.Populate(props);
+            try
+            {
+                FirstClassSize = UInt16.Parse(props[4]);
+                BusinessClassSize = UInt16.Parse(props[5]);
+                EconomyClassSize = UInt16.Parse(props[6]);
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException($"Failed to parse the object: {e.Message}", e);
+            }
         }
+
+        public override string ToString() { return "PassengerPlane"; }
     }
 }

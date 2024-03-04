@@ -1,17 +1,24 @@
-﻿namespace ProjOb
+﻿using System.Data;
+
+namespace ProjOb
 {
     public class CargoPlane : Plane
     {
         public Single MaxLoad { get; set; }
 
-        internal CargoPlane(CargoPlaneDTO data)
+        public override void Populate(String[] props)
         {
-            Type = data.Type;
-            ID = data.ID;
-            Serial = data.Serial;
-            Country = data.Country;
-            Model = data.Model;
-            MaxLoad = data.MaxLoad;
+            base.Populate(props);
+            try
+            {
+                MaxLoad = Single.Parse(props[4]);
+            }
+            catch (FormatException e)
+            {
+                throw new FormatException($"Failed to parse the object: {e.Message}", e);
+            }
         }
+
+        public override string ToString() { return "CargoPlane"; }
     }
 }
