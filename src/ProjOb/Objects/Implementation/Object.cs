@@ -9,7 +9,7 @@ namespace ProjOb
     //[JsonDerivedType(typeof(PassengerPlane), "PassengerPlane")]
     //[JsonDerivedType(typeof(Airport), "Airport")]
     //[JsonDerivedType(typeof(Flight), "Flight")]
-    public abstract class Object : IExpandible
+    public abstract class Object : IExpandable
     {
         [JsonPropertyOrder(-8)]
         public UInt64 ID { get; set; }

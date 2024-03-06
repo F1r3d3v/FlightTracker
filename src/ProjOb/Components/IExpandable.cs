@@ -1,6 +1,6 @@
 ﻿namespace ProjOb
 {
-    public interface IExpandible
+    public interface IExpandable
     {
         void Apply(IComponent component);
     }

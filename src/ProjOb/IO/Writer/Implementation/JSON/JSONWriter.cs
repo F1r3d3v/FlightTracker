@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
 
 namespace ProjOb.IO
 {
@@ -18,6 +17,7 @@ namespace ProjOb.IO
             _stream = new StreamWriter(path);
         }
 
+        //TODO: Make a JSONComponent using UTF8Writer
         public void Write(Database database)
         {
             String result = JsonSerializer.Serialize(database);
