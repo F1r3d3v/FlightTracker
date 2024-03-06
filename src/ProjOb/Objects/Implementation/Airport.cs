@@ -27,6 +27,11 @@
             }
         }
 
+        public override void Apply(IComponent component)
+        {
+            component.Process(this);
+        }
+
         public override string ToString() { return "Airport";  }
     }
 }

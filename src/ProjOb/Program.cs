@@ -10,10 +10,10 @@ namespace ProjOb
             String outputFilename = $"{Path.GetFileNameWithoutExtension(inputFilepath)}.json";
 
             Console.WriteLine("Loading ftr file!");
-            Database database = ObjectFactory.Deserialize(inputFilepath);
+            Database database = Database.Deserialize(inputFilepath);
 
             Console.WriteLine("Serializing objects collection to json!");
-            ObjectFactory.Serialize(database, outputFilename);
+            database.Serialize(outputFilename);
 
             Console.WriteLine("Goodbye!");
         }

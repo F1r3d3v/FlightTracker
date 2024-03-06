@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-
-namespace ProjOb
+﻿namespace ProjOb
 {
     public class Cargo : Object, ILoad
     {
@@ -21,6 +19,11 @@ namespace ProjOb
             {
                 throw new FormatException($"Failed to parse the object: {e.Message}", e);
             }
+        }
+
+        public override void Apply(IComponent component)
+        {
+            component.Process(this);
         }
 
         public override string ToString() { return "Cargo"; }

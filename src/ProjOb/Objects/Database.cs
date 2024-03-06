@@ -1,4 +1,6 @@
-﻿namespace ProjOb
+﻿using ProjOb.IO;
+
+namespace ProjOb
 {
     public class Database
     {
@@ -10,20 +12,18 @@
         public List<Airport> Airports { get; private set; } = [];
         public List<Flight> Flights { get; private set; } = [];
 
-        public void Add(dynamic obj)
+        public void Serialize(String filepath)
         {
-            var dict = new Dictionary<string, dynamic>()
-            {
-                { "Crew", Crews },
-                { "Passenger", Passengers },
-                { "Cargo", Cargos },
-                { "CargoPlane", CargoPlanes },
-                { "PassengerPlane", PassengerPlanes },
-                { "Airport", Airports },
-                { "Flight", Flights },
-            };
+            IWriter wr = WriterFactory.Create(filepath) ?? throw new Exception("Can't create a file writer.");
 
-            dict[obj.ToString()].Add(obj);
+            wr.Write(this);
+            wr.Close();
+        }
+
+        public static Database Deserialize(String filepath)
+        {
+            ILoader loader = LoaderFactory.CreateLoader(filepath);
+            return loader.LoadToDatabase();
         }
     }
 }

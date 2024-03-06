@@ -2,6 +2,6 @@
 {
     internal interface IParser
     {
-        void Parse(Dictionary<String, String[]> records, Database database);
+        List<Object> Parse(Dictionary<String, String[]> records);
     }
 }

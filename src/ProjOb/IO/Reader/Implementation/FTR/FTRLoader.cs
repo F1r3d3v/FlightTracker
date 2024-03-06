@@ -1,4 +1,5 @@
 ﻿using ProjOb.Exceptions;
+using ProjOb.Components;
 
 namespace ProjOb.IO
 {
@@ -17,10 +18,13 @@ namespace ProjOb.IO
             _linker = new FTRLinker();
         }
 
-        public void LoadToDatabase(out Database database)
+        public Database LoadToDatabase()
         {
-            database = new Database();
+            Database database = new Database();
+            IComponent dbComp = new DatabaseComponent(database);
+
             Dictionary<String, String[]> records = [];
+            List<Object> objects = new List<Object>();
 
             String[]? s;
             while ((s = _reader!.Read()) != null)
@@ -33,13 +37,18 @@ namespace ProjOb.IO
             _validator!.Validate(records);
             try
             {
-                _parser!.Parse(records, database);
+                objects = _parser!.Parse(records);
             }
             catch (FormatException e)
             {
                 throw new DataIntegrityException("Invalid property format.", e.InnerException);
             }
+
+            objects.ForEach(x => x.Apply(dbComp));
+
             _linker.Link(records, database);
+
+            return database;
         }
     }
 }
