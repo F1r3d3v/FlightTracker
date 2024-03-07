@@ -6,24 +6,9 @@ namespace ProjOb
     {
         public Single MaxLoad { get; set; }
 
-        public override void Populate(String[] props)
-        {
-            base.Populate(props);
-            try
-            {
-                MaxLoad = Single.Parse(props[4]);
-            }
-            catch (FormatException e)
-            {
-                throw new FormatException($"Failed to parse the object: {e.Message}", e);
-            }
-        }
-
         public override void Apply(IComponent component)
         {
             component.Process(this);
         }
-
-        public override string ToString() { return "CargoPlane"; }
     }
 }

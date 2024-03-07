@@ -1,38 +1,30 @@
-﻿using ProjOb.Components;
-
-namespace ProjOb.IO
+﻿namespace ProjOb.IO
 {
     internal class FTRParser : IParser
     {
-        private readonly Dictionary<string, Func<Object>> factories = new()
+        private readonly Dictionary<string, Func<FTRObjectFactory>> factories = new()
         {
-            { "C", () => new Crew() },
-            { "P", () => new Passenger() },
-            { "CA", () => new Cargo() },
-            { "CP", () => new CargoPlane() },
-            { "PP", () => new PassengerPlane() },
-            { "AI", () => new Airport() },
-            { "FL", () => new Flight() },
+            { "C", () => new FTRCrewFactory() },
+            { "P", () => new FTRPassengerFactory() },
+            { "CA", () => new FTRCargoFactory() },
+            { "CP", () => new FTRCargoPlaneFactory() },
+            { "PP", () => new FTRPassengerPlaneFactory() },
+            { "AI", () => new FTRAirportFactory() },
+            { "FL", () => new FTRFlightFactory() },
         };
 
-        public List<Object> Parse(Dictionary<String, String[]> records)
+        public Object Parse(String[] data)
         {
-            List<Object> result = new List<Object>();
-            foreach (var rec in records)
+            if (factories.TryGetValue(data[0].ToUpperInvariant(), out var value))
             {
-                String[] data = rec.Value;
-                if (factories.TryGetValue(data[0].ToUpperInvariant(), out var value))
-                {
-                    Object obj = value();
-                    obj.Populate(data[1..]);
-                    result.Add(obj);
-                }
-                else
-                {
-                    throw new ArgumentException($"Unknown type: {data[0]}");
-                }
+                FTRObjectFactory factory = value();
+                factory.Populate(data[1..]);
+                return factory.Create();
             }
-            return result;
+            else
+            {
+                throw new ArgumentException($"Unknown type: {data[0]}");
+            }
         }
     }
 }

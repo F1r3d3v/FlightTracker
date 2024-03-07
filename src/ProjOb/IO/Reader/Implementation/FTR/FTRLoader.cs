@@ -13,7 +13,7 @@ namespace ProjOb.IO
         internal FTRLoader(String filepath)
         {
             _reader = new FTRReader(filepath);
-            _validator = new FTRValidator();
+            _validator = new FTRValidator(_reader);
             _parser = new FTRParser();
             _linker = new FTRLinker();
         }
@@ -23,28 +23,13 @@ namespace ProjOb.IO
             Database database = new Database();
             IComponent dbComp = new DatabaseComponent(database);
 
-            Dictionary<String, String[]> records = [];
-            List<Object> objects = new List<Object>();
+            _validator.Validate(out Dictionary<String, String[]> records);
 
-            String[]? s;
-            while ((s = _reader!.Read()) != null)
+            foreach (var rec in records)
             {
-                if (!records.TryAdd(s[1], s))
-                    throw new DataIntegrityException("Two objects can't have the same ID.");
+                Object obj = _parser.Parse(rec.Value);
+                obj.Apply(dbComp);
             }
-            _reader.Reset();
-
-            _validator!.Validate(records);
-            try
-            {
-                objects = _parser!.Parse(records);
-            }
-            catch (FormatException e)
-            {
-                throw new DataIntegrityException("Invalid property format.", e.InnerException);
-            }
-
-            objects.ForEach(x => x.Apply(dbComp));
 
             _linker.Link(records, database);
 

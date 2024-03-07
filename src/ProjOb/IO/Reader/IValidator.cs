@@ -2,6 +2,6 @@
 {
     internal interface IValidator
     {
-        void Validate(Dictionary<String, String[]> dict);
+        void Validate(out Dictionary<String, String[]> dict);
     }
 }

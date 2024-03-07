@@ -4,6 +4,8 @@ namespace ProjOb.IO
 {
     internal class FTRValidator : IValidator
     {
+        private readonly IReader _reader;
+
         private readonly Dictionary<string, int> entryLenght = new()
         {
             { "C",  8},
@@ -15,8 +17,22 @@ namespace ProjOb.IO
             { "FL", 12},
         };
 
-        public void Validate(Dictionary<String, String[]> dict)
+        public FTRValidator(FTRReader reader)
         {
+            _reader = reader;
+        }
+
+        public void Validate(out Dictionary<String, String[]> dict)
+        {
+            dict = [];
+            String[]? s;
+            while ((s = _reader!.Read()) != null)
+            {
+                if (!dict.TryAdd(s[1], s))
+                    throw new DataIntegrityException("Two objects can't have the same ID.");
+            }
+            _reader.Reset();
+
             foreach (var rec in dict)
             {
 
