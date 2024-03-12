@@ -13,4 +13,10 @@
     <Exec Command="xcopy &quot;$(SolutionDir)res\*&quot; &quot;$(TargetDir)&quot; /F /Y /D" />
   </Target>
 
+  <ItemGroup>
+    <Reference Include="NetworkSourceSimulator">
+      <HintPath>..\..\ThirdParty\NSS\NetworkSourceSimulator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

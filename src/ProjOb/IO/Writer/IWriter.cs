@@ -2,7 +2,7 @@
 {
     public interface IWriter
     {
-        void Write(Object[] objArr);
+        void Write(Database database);
         void Close();
     }
 }

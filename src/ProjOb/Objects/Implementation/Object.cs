@@ -2,16 +2,11 @@
 
 namespace ProjOb
 {
-    [JsonDerivedType(typeof(Crew))]
-    [JsonDerivedType(typeof(Passenger))]
-    [JsonDerivedType(typeof(Cargo))]
-    [JsonDerivedType(typeof(CargoPlane))]
-    [JsonDerivedType(typeof(PassengerPlane))]
-    [JsonDerivedType(typeof(Airport))]
-    [JsonDerivedType(typeof(Flight))]
-    public abstract class Object
+    public abstract class Object : IExpandable
     {
-        public String? Type { get; set; }
+        [JsonPropertyOrder(-8)]
         public UInt64 ID { get; set; }
+
+        public abstract void Apply(IComponent component);
     }
 }
