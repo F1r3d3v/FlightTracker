@@ -11,7 +11,7 @@ Projekt semestralny z przedmiotu Projektowanie Obiektowe mający na celu stworze
 ## Etapy Projektu
 
 - [x] Etap 1 - Wczytywanie danych i serializacja
-- [ ] Etap 2 
+- [x] Etap 2 - Nowe źródło danych
 - [ ] Etap 3 
 - [ ] Etap 4 
 - [ ] Etap 5 
