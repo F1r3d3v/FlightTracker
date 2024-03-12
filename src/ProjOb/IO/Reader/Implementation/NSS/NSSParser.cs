@@ -17,7 +17,7 @@ namespace ProjOb.IO
 
         public Object Parse(Byte[] data)
         {
-            String type = Encoding.ASCII.GetString(data, 0, 3).ToUpperInvariant();
+            String type = Encoding.UTF8.GetString(data, 0, 3).ToUpperInvariant();
             if (factories.TryGetValue(type, out var value))
             {
                 NSSObjectFactory factory = value();

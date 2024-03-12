@@ -24,9 +24,9 @@ namespace ProjOb.IO
             {
                 base.Populate(msg);
                 _weight = BitConverter.ToSingle(msg, 15);
-                _code = Encoding.ASCII.GetString(msg, 19, 6);
+                _code = Encoding.UTF8.GetString(msg, 19, 6).TrimEnd('\0');
                 UInt16 descLength = BitConverter.ToUInt16(msg, 25);
-                _description = Encoding.ASCII.GetString(msg, 27, descLength);
+                _description = Encoding.UTF8.GetString(msg, 27, descLength).TrimEnd('\0');
             }
             catch (FormatException e)
             {

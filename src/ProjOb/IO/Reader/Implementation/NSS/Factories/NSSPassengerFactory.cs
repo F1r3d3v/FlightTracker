@@ -30,12 +30,12 @@ namespace ProjOb.IO
             {
                 base.Populate(msg);
                 UInt16 nameLength = BitConverter.ToUInt16(msg, 15);
-                _name = Encoding.ASCII.GetString(msg, 17, nameLength);
+                _name = Encoding.UTF8.GetString(msg, 17, nameLength).TrimEnd('\0');
                 _age = BitConverter.ToUInt16(msg, 17 + nameLength);
-                _phone = Encoding.ASCII.GetString(msg, 19 + nameLength, 12);
+                _phone = Encoding.UTF8.GetString(msg, 19 + nameLength, 12).TrimEnd('\0');
                 UInt16 emailLength = BitConverter.ToUInt16(msg, 31 + nameLength);
-                _email = Encoding.ASCII.GetString(msg, 33 + nameLength, emailLength);
-                _class = Encoding.ASCII.GetString(msg, 33 + nameLength + emailLength, 1);
+                _email = Encoding.UTF8.GetString(msg, 33 + nameLength, emailLength).TrimEnd('\0');
+                _class = Encoding.UTF8.GetString(msg, 33 + nameLength + emailLength, 1).TrimEnd('\0');
                 _miles = BitConverter.ToUInt64(msg, 34 + nameLength + emailLength);
             }
             catch (FormatException e)

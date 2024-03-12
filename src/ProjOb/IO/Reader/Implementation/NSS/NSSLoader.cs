@@ -11,7 +11,7 @@ namespace ProjOb.IO
         private String _filepath;
         private Database? _db;
 
-        internal NSSLoader(String filepath, int minDelay = 100, int maxDelay = 250)
+        internal NSSLoader(String filepath, int minDelay, int maxDelay)
         {
             _nss = new(filepath, minDelay, maxDelay);
             _nss.OnNewDataReady += AddToDatabase;

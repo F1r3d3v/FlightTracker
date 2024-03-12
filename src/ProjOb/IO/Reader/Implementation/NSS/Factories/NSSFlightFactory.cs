@@ -31,11 +31,11 @@ namespace ProjOb.IO
 
                 Int64 takeofftime = BitConverter.ToInt64(msg, 31);
                 DateTime takeoffDate = DateTimeOffset.FromUnixTimeMilliseconds(takeofftime).DateTime;
-                _takeofftime = takeoffDate.TimeOfDay.ToString("hh\\:mm");
+                _takeofftime = takeoffDate.ToString("HH:mm");
 
                 Int64 landingtime = BitConverter.ToInt64(msg, 39);
                 DateTime landingDate = DateTimeOffset.FromUnixTimeMilliseconds(landingtime).DateTime;
-                _landingtime = landingDate.TimeOfDay.ToString("hh\\:mm");
+                _landingtime = landingDate.ToString("HH:mm");
             }
             catch (FormatException e)
             {

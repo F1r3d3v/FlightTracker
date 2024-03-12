@@ -30,12 +30,12 @@ namespace ProjOb.IO
             {
                 base.Populate(msg);
                 UInt16 nameLength = BitConverter.ToUInt16(msg, 15);
-                _name = Encoding.ASCII.GetString(msg, 17, nameLength);
-                _code = Encoding.ASCII.GetString(msg, 17 + nameLength, 3);
+                _name = Encoding.UTF8.GetString(msg, 17, nameLength).TrimEnd('\0');
+                _code = Encoding.UTF8.GetString(msg, 17 + nameLength, 3).TrimEnd('\0');
                 _longitude = BitConverter.ToSingle(msg, 20 + nameLength);
                 _latitude = BitConverter.ToSingle(msg, 24 + nameLength);
                 _amsl = BitConverter.ToSingle(msg, 28 + nameLength);
-                _country = Encoding.ASCII.GetString(msg, 32 + nameLength, 3);
+                _country = Encoding.UTF8.GetString(msg, 32 + nameLength, 3).TrimEnd('\0');
             }
             catch (FormatException e)
             {

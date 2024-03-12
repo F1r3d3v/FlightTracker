@@ -25,10 +25,10 @@ namespace ProjOb.IO
             try
             {
                 base.Populate(msg);
-                _serial = Encoding.ASCII.GetString(msg, 15, 10);
-                _country = Encoding.ASCII.GetString(msg, 25, 3);
+                _serial = Encoding.UTF8.GetString(msg, 15, 10).TrimEnd('\0');
+                _country = Encoding.UTF8.GetString(msg, 25, 3).TrimEnd('\0');
                 UInt16 modelLength = BitConverter.ToUInt16(msg, 28);
-                _model = Encoding.ASCII.GetString(msg, 30, modelLength);
+                _model = Encoding.UTF8.GetString(msg, 30, modelLength).TrimEnd('\0');
                 _maxload = BitConverter.ToSingle(msg, 30 + modelLength);
             }
             catch (FormatException e)
