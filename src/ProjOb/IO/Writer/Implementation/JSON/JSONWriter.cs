@@ -60,27 +60,9 @@ namespace ProjOb.IO
             _stream = new StreamWriter(path);
         }
 
-        //TODO: Make a JSONComponent using UTF8Writer
         public void Write(Database database)
         {
             String result = JsonSerializer.Serialize(database, Options);
-            //JsonNode dbNode = JsonNode.Parse(result)!;
-            //JsonArray flights = dbNode["Flights"]!.AsArray();
-            //foreach (var flight in flights)
-            //{
-            //    flight!["Origin"] = flight!["Origin"]!["ID"]!.GetValue<UInt64>();
-            //    flight!["Target"] = flight!["Target"]!["ID"]!.GetValue<UInt64>();
-            //    flight!["Plane"] = flight!["Plane"]!["ID"]!.GetValue<UInt64>();
-
-            //    JsonArray crews = flight!["Crews"]!.AsArray();
-            //    for (int j = 0; j < crews.Count; j++)
-            //        crews[j] = crews[j]!["ID"]!.GetValue<UInt64>();
-
-            //    JsonArray loads = flight!["Loads"]!.AsArray();
-            //    for (int j = 0; j < loads.Count; j++)
-            //        loads[j] = loads[j]!["ID"]!.GetValue<UInt64>();
-            //}
-            //_stream.Write(dbNode.ToJsonString(Options));
             _stream.Write(result);
         }
 
