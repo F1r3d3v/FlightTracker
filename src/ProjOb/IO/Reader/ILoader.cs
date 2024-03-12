@@ -2,6 +2,6 @@
 {
     internal interface ILoader
     {
-        Database LoadToDatabase();
+        void LoadToDatabase(Database db);
     }
 }

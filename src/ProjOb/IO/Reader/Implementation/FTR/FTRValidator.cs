@@ -2,7 +2,7 @@
 
 namespace ProjOb.IO
 {
-    internal class FTRValidator : IValidator
+    internal class FTRValidator
     {
         private readonly IReader _reader;
 

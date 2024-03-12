@@ -1,5 +1,4 @@
-﻿using ProjOb.Exceptions;
-using ProjOb.Components;
+﻿using ProjOb.Components;
 
 namespace ProjOb.IO
 {
@@ -18,10 +17,9 @@ namespace ProjOb.IO
             _linker = new FTRLinker();
         }
 
-        public Database LoadToDatabase()
+        public void LoadToDatabase(Database db)
         {
-            Database database = new Database();
-            IComponent dbComp = new DatabaseComponent(database);
+            IComponent dbComp = new DatabaseComponent(db);
 
             _validator.Validate(out Dictionary<String, String[]> records);
 
@@ -31,9 +29,7 @@ namespace ProjOb.IO
                 obj.Apply(dbComp);
             }
 
-            _linker.Link(records, database);
-
-            return database;
+            _linker.Link(records, db);
         }
     }
 }

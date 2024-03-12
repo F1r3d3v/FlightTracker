@@ -4,13 +4,13 @@ namespace ProjOb
 {
     public class Database
     {
-        public List<Crew> Crews { get; private set; } = [];
-        public List<Passenger> Passengers { get; private set; } = [];
-        public List<Cargo> Cargos { get; private set; } = [];
-        public List<CargoPlane> CargoPlanes { get; private set; } = [];
-        public List<PassengerPlane> PassengerPlanes { get; private set; } = [];
-        public List<Airport> Airports { get; private set; } = [];
-        public List<Flight> Flights { get; private set; } = [];
+        public Dictionary<UInt64, Crew> Crews { get; private set; } = [];
+        public Dictionary<UInt64, Passenger> Passengers { get; private set; } = [];
+        public Dictionary<UInt64, Cargo> Cargos { get; private set; } = [];
+        public Dictionary<UInt64, CargoPlane> CargoPlanes { get; private set; } = [];
+        public Dictionary<UInt64, PassengerPlane> PassengerPlanes { get; private set; } = [];
+        public Dictionary<UInt64, Airport> Airports { get; private set; } = [];
+        public Dictionary<UInt64, Flight> Flights { get; private set; } = [];
 
         public void Serialize(String filepath)
         {
@@ -23,7 +23,9 @@ namespace ProjOb
         public static Database Deserialize(String filepath)
         {
             ILoader loader = LoaderFactory.CreateLoader(filepath);
-            return loader.LoadToDatabase();
+            Database db = new Database();
+            loader.LoadToDatabase(db);
+            return db;
         }
     }
 }

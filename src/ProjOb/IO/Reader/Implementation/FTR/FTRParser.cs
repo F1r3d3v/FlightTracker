@@ -1,6 +1,6 @@
 ﻿namespace ProjOb.IO
 {
-    internal class FTRParser : IParser
+    internal class FTRParser
     {
         private readonly Dictionary<string, Func<FTRObjectFactory>> factories = new()
         {

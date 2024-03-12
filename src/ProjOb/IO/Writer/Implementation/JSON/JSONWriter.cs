@@ -36,7 +36,7 @@ namespace ProjOb.IO
                     else if (propertyInfo.PropertyType.BaseType == typeof(Object))
                     {
                         JsonPropertyInfo newPropertyInfo = typeInfo.CreateJsonPropertyInfo(typeof(UInt64), propertyInfo.Name);
-                        newPropertyInfo.Get = (x) => { return (propertyInfo.Get?.Invoke(x) as Object)!.ID; };
+                        newPropertyInfo.Get = (x) => { return ((Object)propertyInfo.Get?.Invoke(x)!).ID; };
                         typeInfo.Properties.Remove(propertyInfo);
                         typeInfo.Properties.Insert(i, newPropertyInfo);
                     }
