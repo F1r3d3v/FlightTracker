@@ -1,11 +1,16 @@
-﻿namespace ProjOb
+﻿using ProjOb.IO;
+using ProjOb.GUI;
+
+namespace ProjOb
 {
     internal class Program
     {
         static void Main(String[] args)
         {
             Database db = new Database();
-            NSSServer.RunServer("example_data.ftr", db, 15, 30);
+            //ILoader loader = new NSSLoader("example_data.ftr", 5, 10);
+            ILoader loader = new FTRLoader("example_data.ftr");
+            FlightTracker.RunGUI(loader, db);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ProjOb.IO
 {
-    internal interface ILoader
+    public interface ILoader
     {
         void LoadToDatabase(Database db);
     }
