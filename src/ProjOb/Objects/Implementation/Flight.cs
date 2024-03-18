@@ -6,8 +6,8 @@ namespace ProjOb
     {
         [JsonOnlyID] public Airport? Origin { get; set; }
         [JsonOnlyID] public Airport? Target { get; set; }
-        public String? TakeoffTime { get; set; }
-        public String? LandingTime { get; set; }
+        public TimeSpan TakeoffTime { get; set; }
+        public TimeSpan LandingTime { get; set; }
         public Single Longitude { get; set; }
         public Single Latitude { get; set; }
         public Single AMSL { get; set; }

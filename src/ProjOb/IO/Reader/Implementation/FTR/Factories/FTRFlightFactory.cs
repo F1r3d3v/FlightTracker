@@ -4,8 +4,8 @@ namespace ProjOb.IO
 {
     internal class FTRFlightFactory : FTRObjectFactory
     {
-        protected String? _takeofftime;
-        protected String? _landingtime;
+        protected TimeSpan _takeofftime;
+        protected TimeSpan _landingtime;
         protected Single _longitude;
         protected Single _latitude;
         protected Single _amsl;
@@ -30,8 +30,8 @@ namespace ProjOb.IO
             try
             {
                 base.Populate(props);
-                _takeofftime = props[3];
-                _landingtime = props[4];
+                _takeofftime = TimeSpan.Parse(props[3]);
+                _landingtime = TimeSpan.Parse(props[4]);
                 _longitude = Single.Parse(props[5]);
                 _latitude = Single.Parse(props[6]);
                 _amsl = Single.Parse(props[7]);
