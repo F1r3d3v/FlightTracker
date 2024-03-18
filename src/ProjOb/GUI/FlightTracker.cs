@@ -13,17 +13,15 @@ public static class FlightTracker
         Task t = Task.Run(() => Runner.Run());
         FlightsGUIDataAdapter wrapper = new FlightsGUIDataAdapter(db);
 
-        DateTime time = DateTime.Now;
-        Timer aTimer = new(1000);
-        aTimer.Elapsed += (object? sender, ElapsedEventArgs e) =>
+        Timer timer = new(1000);
+        timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
         {
-            time = time.AddMinutes(2);
-            FlightsGUIData data = wrapper.ConvertToFlightsGUIData(time);
+            FlightsGUIData data = wrapper.ConvertToFlightsGUIData(e.SignalTime);
             Runner.UpdateGUI(data);
-            Console.WriteLine($"Current Time: {time.ToString()}");
+            Console.WriteLine($"Current Time: {e.SignalTime:HH:mm:ss}");
         };
-        aTimer.AutoReset = true;
-        aTimer.Enabled = true;
+        timer.AutoReset = true;
+        timer.Enabled = true;
 
         t.Wait();
     }

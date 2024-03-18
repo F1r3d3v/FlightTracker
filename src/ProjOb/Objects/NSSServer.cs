@@ -25,7 +25,7 @@ namespace ProjOb
 
                 if (selection == "print" || selection == "1")
                 {
-                    String output = $"snapshot_{DateTime.Now.ToString("HH_mm_ss", CultureInfo.InvariantCulture)}.json";
+                    String output = $"snapshot_{DateTime.Now:HH_mm_ss}.json";
                     lock(db)
                     {
                         db.Serialize(output);

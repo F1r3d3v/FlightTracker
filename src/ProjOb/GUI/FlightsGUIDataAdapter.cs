@@ -7,10 +7,12 @@ namespace ProjOb.GUI
     {
         private readonly Database _db;
         private readonly Dictionary<UInt64, WorldPosition> _oldWorldPositions = [];
+        private DateTime referenceDate;
 
         public FlightsGUIDataAdapter(Database db)
         {
             _db = db;
+            referenceDate = DateTime.Today;
         }
 
         public FlightsGUIData ConvertToFlightsGUIData(DateTime currentTime)
@@ -23,11 +25,13 @@ namespace ProjOb.GUI
                     (double longitude, double latitude) departureCords = (flight.Origin?.Longitude ?? 0, flight.Origin?.Latitude ?? 0);
                     (double longitude, double latitude) arrivalCords = (flight.Target?.Longitude ?? 0, flight.Target?.Latitude ?? 0);
 
-                    TimeSpan LandingTime = DateTime.Parse(flight.LandingTime!).TimeOfDay;
-                    TimeSpan TakeoffTime = DateTime.Parse(flight.TakeoffTime!).TimeOfDay;
+                    TimeSpan flightDuration;
+                    if (flight.LandingTime >= flight.TakeoffTime)
+                        flightDuration = flight.LandingTime - flight.TakeoffTime;
+                    else
+                        flightDuration = TimeSpan.FromDays(1) - flight.TakeoffTime + flight.LandingTime;
 
-                    TimeSpan flightDuration = LandingTime - TakeoffTime;
-                    TimeSpan elapsedTime = currentTime.TimeOfDay - TakeoffTime;
+                    TimeSpan elapsedTime = currentTime - (referenceDate + flight.TakeoffTime);
 
                     if (elapsedTime.Ticks <= 0 || flightDuration < elapsedTime) continue;
 
