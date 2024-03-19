@@ -7,12 +7,10 @@ namespace ProjOb.GUI
     {
         private readonly Database _db;
         private readonly Dictionary<UInt64, WorldPosition> _oldWorldPositions = [];
-        private DateTime referenceDate;
 
         public FlightsGUIDataAdapter(Database db)
         {
             _db = db;
-            referenceDate = DateTime.Today;
         }
 
         public FlightsGUIData ConvertToFlightsGUIData(DateTime currentTime)
@@ -31,7 +29,7 @@ namespace ProjOb.GUI
                     else
                         flightDuration = TimeSpan.FromDays(1) - flight.TakeoffTime + flight.LandingTime;
 
-                    TimeSpan elapsedTime = currentTime - (referenceDate + flight.TakeoffTime);
+                    TimeSpan elapsedTime = currentTime.TimeOfDay - flight.TakeoffTime;
 
                     if (elapsedTime.Ticks <= 0 || flightDuration < elapsedTime) continue;
 
