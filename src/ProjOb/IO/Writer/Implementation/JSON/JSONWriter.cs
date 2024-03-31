@@ -13,7 +13,8 @@ namespace ProjOb.IO
             {
                 Modifiers = 
                 {
-                    JSONModifiers.OnlyIDModifier
+                    JSONModifiers.OnlyIDModifier,
+                    JSONModifiers.OnlyDictValModifier
                 }
             },
             Converters =

@@ -1,7 +1,6 @@
 ﻿using Mapsui.Projections;
-using ProjOb.Wrappers;
 
-namespace ProjOb.GUI
+namespace ProjOb.UI
 {
     internal class FlightsGUIDataAdapter : IFlightTrackerAdapter
     {

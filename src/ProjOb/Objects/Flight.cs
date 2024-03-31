@@ -15,9 +15,7 @@ namespace ProjOb
         [JsonOnlyID] public List<Crew> Crews { get; set; } = [];
         [JsonOnlyID] public List<ILoad> Loads { get; set; } = [];
 
-        public override void Apply(IComponent component)
-        {
-            component.Process(this);
-        }
+        public override void Apply(IComponent component) => component.Process(this);
+        public override string Apply(IComponent<string> component) => component.Process(this)!;
     }
 }

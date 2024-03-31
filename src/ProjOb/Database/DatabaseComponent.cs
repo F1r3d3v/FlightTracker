@@ -3,6 +3,7 @@
     public class DatabaseComponent : IComponent
     {
         private Database _database;
+
         public DatabaseComponent(Database database)
         {
             _database = database;

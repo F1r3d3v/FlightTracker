@@ -13,7 +13,7 @@ Projekt semestralny z przedmiotu Projektowanie Obiektowe mający na celu stworze
 - [x] Etap 1 - Wczytywanie danych i serializacja
 - [x] Etap 2 - Nowe źródło danych
 - [x] Etap 3 - Integracja z GUI
-- [ ] Etap 4 
+- [x] Etap 4 - Przegląd wiadomości
 - [ ] Etap 5 
 - [ ] Etap 6 
 

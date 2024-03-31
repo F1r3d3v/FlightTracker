@@ -1,5 +1,5 @@
 ﻿
-namespace ProjOb.Wrappers
+namespace ProjOb.UI
 {
     public interface IFlightTrackerAdapter
     {

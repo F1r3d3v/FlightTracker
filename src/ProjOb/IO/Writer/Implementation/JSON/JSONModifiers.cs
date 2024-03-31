@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization.Metadata;
+﻿using System.Collections;
+using System.Text.Json.Serialization.Metadata;
 
 namespace ProjOb.IO
 {
@@ -33,6 +34,40 @@ namespace ProjOb.IO
                     {
                         JsonPropertyInfo newPropertyInfo = typeInfo.CreateJsonPropertyInfo(typeof(UInt64), propertyInfo.Name);
                         newPropertyInfo.Get = (x) => { return ((Object)propertyInfo.Get?.Invoke(x)!).ID; };
+                        typeInfo.Properties.Remove(propertyInfo);
+                        typeInfo.Properties.Insert(i, newPropertyInfo);
+                    }
+                }
+            }
+        }
+
+        public static void OnlyDictValModifier(JsonTypeInfo typeInfo)
+        {
+            for (int i = 0; i < typeInfo.Properties.Count; i++)
+            {
+                JsonPropertyInfo propertyInfo = typeInfo.Properties[i];
+                object[] onlyIDAttributes = propertyInfo.AttributeProvider?.GetCustomAttributes(typeof(JsonOnlyDictValAttribute), true) ?? Array.Empty<object>();
+                JsonOnlyDictValAttribute? attribute = onlyIDAttributes.Length == 1 ? (JsonOnlyDictValAttribute)onlyIDAttributes[0] : null;
+
+                if (attribute != null)
+                {
+                    if (propertyInfo.PropertyType.GetInterface(nameof(IDictionary)) != null)
+                    {
+                        var valueType = propertyInfo.PropertyType.GetGenericArguments()[1];
+
+                        JsonPropertyInfo newPropertyInfo = typeInfo.CreateJsonPropertyInfo(valueType.MakeArrayType(), propertyInfo.Name);
+                        newPropertyInfo.Get = (x) =>
+                        {
+                            var dict = (IDictionary?)(propertyInfo.Get?.Invoke(x));
+                            if (dict is null) return null;
+
+                            Array res = Array.CreateInstance(valueType, dict.Values.Count);
+                            int j = 0;
+                            foreach (var val in dict.Values)
+                                res.SetValue(val, j++);
+
+                            return res;
+                        };
                         typeInfo.Properties.Remove(propertyInfo);
                         typeInfo.Properties.Insert(i, newPropertyInfo);
                     }

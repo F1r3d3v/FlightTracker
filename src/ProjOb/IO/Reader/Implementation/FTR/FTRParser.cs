@@ -2,22 +2,21 @@
 {
     internal class FTRParser
     {
-        private readonly Dictionary<string, Func<FTRObjectFactory>> factories = new()
+        private readonly Dictionary<string, FTRObjectFactory> factories = new()
         {
-            { "C", () => new FTRCrewFactory() },
-            { "P", () => new FTRPassengerFactory() },
-            { "CA", () => new FTRCargoFactory() },
-            { "CP", () => new FTRCargoPlaneFactory() },
-            { "PP", () => new FTRPassengerPlaneFactory() },
-            { "AI", () => new FTRAirportFactory() },
-            { "FL", () => new FTRFlightFactory() },
+            { "C", new FTRCrewFactory() },
+            { "P", new FTRPassengerFactory() },
+            { "CA", new FTRCargoFactory() },
+            { "CP", new FTRCargoPlaneFactory() },
+            { "PP", new FTRPassengerPlaneFactory() },
+            { "AI", new FTRAirportFactory() },
+            { "FL", new FTRFlightFactory() },
         };
 
         public Object Parse(String[] data)
         {
-            if (factories.TryGetValue(data[0].ToUpperInvariant(), out var value))
+            if (factories.TryGetValue(data[0].ToUpperInvariant(), out var factory))
             {
-                FTRObjectFactory factory = value();
                 factory.Populate(data[1..]);
                 return factory.Create();
             }
