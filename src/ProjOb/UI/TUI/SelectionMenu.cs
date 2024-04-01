@@ -18,6 +18,7 @@
         {
             bool selected = false;
             TerminalHelper.SetCursorVisibility(false);
+            TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.EntireScreenWithBuffer);
 
             do
             {
@@ -33,7 +34,7 @@
                 for (int i = 0; i < _entries.Length; i++)
                     CreateEntry(_entries[i], (uint)(5 + i), 5, _selection == i);
 
-                var key = Console.ReadKey();
+                var key = Console.ReadKey(true);
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
@@ -53,6 +54,7 @@
 
             TerminalHelper.MoveCursorToHome();
             TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.FromCurToEnd);
+            TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.EntireScreenWithBuffer);
 
             return _selection;
         }
