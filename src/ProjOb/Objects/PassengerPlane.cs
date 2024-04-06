@@ -1,6 +1,8 @@
-﻿namespace ProjOb
+﻿using ProjOb.Media;
+
+namespace ProjOb
 {
-    public class PassengerPlane : Plane
+    public class PassengerPlane : Plane, IReportable
     {
         public UInt16 FirstClassSize { get; set; }
         public UInt16 BusinessClassSize { get; set; }

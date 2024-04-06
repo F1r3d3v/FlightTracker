@@ -1,8 +1,9 @@
-﻿using System.Data;
+﻿using ProjOb.Media;
+using System.Data;
 
 namespace ProjOb
 {
-    public class CargoPlane : Plane
+    public class CargoPlane : Plane, IReportable
     {
         public Single MaxLoad { get; set; }
 

@@ -18,7 +18,8 @@ namespace ProjOb.UI
                                           new Newspaper("Gazeta Kategoryczna"),
                                           new Newspaper("Dziennik Politechniczny")];
 
-                NewsGenerator news = new NewsGenerator(mediaList, [.. db.Airports.Values]);
+                List<IReportable> objs = [.. db.Airports.Values, .. db.CargoPlanes.Values, .. db.PassengerPlanes.Values];
+                NewsGenerator news = new NewsGenerator(mediaList, objs);
 
                 string? content;
                 while ((content = news.GenerateNextNews()) != null)
