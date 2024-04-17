@@ -1,5 +1,6 @@
 ﻿using ProjOb.IO;
 using ProjOb.Media;
+using static ProjOb.Constants;
 
 namespace ProjOb.UI
 {
@@ -32,6 +33,35 @@ namespace ProjOb.UI
                 finishing = false;
             };
 
+            var showLogs = () =>
+            {
+                ILogProvider logPr = new ConsoleLogProvider();
+                using (StreamReader sr = new StreamReader(Path.Combine(LogPath, $"{DateTime.Now:yyyy-MM-dd}.log")))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        String? line = sr.ReadLine();
+                        if (line != null)
+                        {
+                            String[] mesg = line.Split('|', StringSplitOptions.TrimEntries);
+                            if (Enum.TryParse(mesg[1][1..^1], true, out LogLevel loglevel))
+                            {
+                                if (DateTime.TryParse(mesg[0], out DateTime time))
+                                {
+                                    ILogProvider consoleLogPr = new ConsoleLogProvider();
+                                    LogMessage message = new(loglevel, mesg[2], time);
+                                    Logger.Log(message, consoleLogPr);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine("\nPress Any key to continue...");
+                Console.ReadKey();
+                finishing = false;
+            };
+
             var snapshotDel = (Database db) =>
             {
                 lock (db)
@@ -41,26 +71,37 @@ namespace ProjOb.UI
                 finishing = false;
             };
 
-            string[] src = ["Local Database", "Network Stream"];
+            string[] src = ["Local Database", "Network Stream", "Local Database with Network Stream Changes"];
             int sel = SelectionMenu.CreateSelectionMenu(src, "Choose Source:");
 
-            ILoader? loader = null;
+            ILoader? loader1 = null;
+            ILoader? loader2 = null;
             switch (src[sel])
             {
                 case "Local Database":
-                    loader = new FTRLoader("example_data.ftr");
+                    loader1 = new FTRLoader("example_data.ftr");
                     break;
 
                 case "Network Stream":
-                    loader = new NSSLoader("example_data.ftr", 10, 15);
+                    loader1 = new NSSLoader("example_data.ftr", 10, 15);
+                    break;
+
+                case "Local Database with Network Stream Changes":
+                    loader1 = new FTRLoader("example_data.ftr");
+                    loader2 = new NSSLoader("example.ftre", 150, 250);
                     break;
             }
-            Task.Run(() => loader?.LoadToDatabase(db));
+            Task.Run(() =>
+            {
+                loader1?.LoadToDatabase(db);
+                loader2?.LoadToDatabase(db);
+            });
 
             var opts = new Dictionary<string, Action>()
             {
                 { "Flight Tracker", () => { FlightTracker.RunGUI(db); finishing = false; }  },
                 { "Report", () => reportDel(db) },
+                { "Show Logs", () => showLogs() },
                 { "Snapshot", () => snapshotDel(db) },
                 { "Exit", () => Environment.Exit(0) },
             };
