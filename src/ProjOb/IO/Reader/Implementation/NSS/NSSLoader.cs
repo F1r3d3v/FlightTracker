@@ -1,5 +1,6 @@
 ﻿using ProjOb.Components;
 using NetworkSourceSimulator;
+using ProjOb.Events;
 
 namespace ProjOb.IO
 {
@@ -23,16 +24,22 @@ namespace ProjOb.IO
         public void LoadToDatabase(Database db)
         {
             _db = db;
+            ObjectEventHandler eventHandler = new ObjectEventHandler(db);
+            _nss.OnIDUpdate += eventHandler.OnIDChanged;
+            _nss.OnPositionUpdate += eventHandler.OnPositionChanged;
+            _nss.OnContactInfoUpdate += eventHandler.OnContactInfoChanged;
             _nss.Run();
         }
 
         private void AddToDatabase(object sender, NewDataReadyArgs args)
         {
+            if (_db == null) return;
+
             Message msg = _nss.GetMessageAt(args.MessageIndex);
             Object obj = _parser.Parse(msg.MessageBytes);
 
-            IComponent dbComp = new DatabaseComponent(_db!);
-            lock(_db!)
+            IComponent dbComp = new DatabaseComponent(_db);
+            lock(_db)
             {
                 obj.Apply(dbComp);
                 _linker.Link(msg.MessageBytes, _db);
