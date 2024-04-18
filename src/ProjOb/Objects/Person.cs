@@ -20,9 +20,9 @@ namespace ProjOb
 
         public override void OnContactInfoChanged(object sender, ContactInfoUpdateArgs args)
         {
-            Logger.Info($"Object ID {ID}:");
-            Logger.Info($"  Phone {Phone} -> {args.PhoneNumber}");
-            Logger.Info($"  Email {Email} -> {args.EmailAddress}");
+            Logger.InfoAsync($"Object ID {ID}:");
+            Logger.InfoAsync($"  Phone {Phone} -> {args.PhoneNumber}");
+            Logger.InfoAsync($"  Email {Email} -> {args.EmailAddress}");
             Phone = args.PhoneNumber;
             Email = args.EmailAddress;
         }

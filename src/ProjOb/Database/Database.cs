@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace ProjOb
 {
-    public class Database : IEnumerable<Object>
+    public class Database
     {
         [JsonOnlyDictVal] public Dictionary<UInt64, Crew> Crews { get; private set; } = [];
         [JsonOnlyDictVal] public Dictionary<UInt64, Passenger> Passengers { get; private set; } = [];
@@ -52,27 +52,25 @@ namespace ProjOb
             return null;
         }
 
-        public IEnumerator<Object> GetEnumerator()
+        public IEnumerable<Object> GetObjects()
         {
-            Object[] objects = [
-                .. Crews.Values,
-                .. Passengers.Values,
-                .. Cargos.Values,
-                .. CargoPlanes.Values,
-                .. PassengerPlanes.Values,
-                .. Airports.Values,
-                .. Flights.Values
+            ICollection[] collections = [
+                Crews.Values,
+                Passengers.Values,
+                Cargos.Values,
+                CargoPlanes.Values,
+                PassengerPlanes.Values,
+                Airports.Values,
+                Flights.Values
             ];
 
-            foreach (Object obj in objects)
+            foreach (ICollection collection in collections)
             {
-                yield return obj;
+                foreach (Object obj in collection)
+                {
+                    yield return obj;
+                }
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

@@ -13,7 +13,8 @@ namespace ProjOb
             {
                 new FileLogProvider(LogPath)
             };
-            Logger.Info("---------- App started ----------");
+            Logger.Enabled = true;
+            Logger.InfoAsync("---------- App started ----------");
             TUI.Run(db);
         }
     }

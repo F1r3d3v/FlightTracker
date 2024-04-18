@@ -36,30 +36,53 @@ namespace ProjOb.UI
             var showLogs = () =>
             {
                 ILogProvider logPr = new ConsoleLogProvider();
-                using (StreamReader sr = new StreamReader(Path.Combine(LogPath, $"{DateTime.Now:yyyy-MM-dd}.log")))
+                Logger.Worker.Lock.EnterUpgradeableReadLock();
+                try
                 {
-                    while (!sr.EndOfStream)
+                    using (StreamReader sr = new StreamReader(Path.Combine(LogPath, $"{DateTime.Now:yyyy-MM-dd}.log")))
                     {
-                        String? line = sr.ReadLine();
-                        if (line != null)
+                        while (!sr.EndOfStream)
                         {
-                            String[] mesg = line.Split('|', StringSplitOptions.TrimEntries);
-                            if (Enum.TryParse(mesg[1][1..^1], true, out LogLevel loglevel))
+                            String? line = sr.ReadLine();
+                            if (line != null)
                             {
-                                if (DateTime.TryParse(mesg[0], out DateTime time))
+                                String[] mesg = line.Split('|');
+                                if (Enum.TryParse((mesg[1].Trim())[1..^1], true, out LogLevel loglevel))
                                 {
-                                    ILogProvider consoleLogPr = new ConsoleLogProvider();
-                                    LogMessage message = new(loglevel, mesg[2], time);
-                                    Logger.Log(message, consoleLogPr);
+                                    if (DateTime.TryParse(mesg[0], out DateTime time))
+                                    {
+                                        ILogProvider consoleLogPr = new ConsoleLogProvider();
+                                        LogMessage message = new(loglevel, mesg[2][1..], time);
+                                        Logger.Log(message, consoleLogPr);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine("No logs to display\n");
+                    Console.WriteLine("\nPress Any key to continue...");
+                    Console.ReadKey();
+                    return; 
+                }
+                finally
+                {
+                    Logger.Worker.Lock.ExitUpgradeableReadLock();
+                }
 
                 Console.WriteLine("\nPress Any key to continue...");
                 Console.ReadKey();
-                finishing = false;
+            };
+
+            var clearLogs = () =>
+            {
+                DirectoryInfo dInfo = new DirectoryInfo(LogPath);
+                foreach (FileInfo fInfo in dInfo.EnumerateFiles())
+                {
+                    fInfo.Delete();
+                }
             };
 
             var snapshotDel = (Database db) =>
@@ -88,7 +111,7 @@ namespace ProjOb.UI
 
                 case "Local Database with Network Stream Changes":
                     loader1 = new FTRLoader("example_data.ftr");
-                    loader2 = new NSSLoader("example.ftre", 150, 250);
+                    loader2 = new NSSLoader("example.ftre", 200, 300);
                     break;
             }
             Task.Run(() =>
@@ -97,11 +120,18 @@ namespace ProjOb.UI
                 loader2?.LoadToDatabase(db);
             });
 
+            var optsLogs = new Dictionary<string, Action>()
+            {
+                { "Show Logs", () => showLogs()  },
+                { "Clear Logs", () => clearLogs() },
+                { "Back", () => { } },
+            };
+
             var opts = new Dictionary<string, Action>()
             {
                 { "Flight Tracker", () => { FlightTracker.RunGUI(db); finishing = false; }  },
                 { "Report", () => reportDel(db) },
-                { "Show Logs", () => showLogs() },
+                { "Logs", () => {SelectionMenu.CreateSelectionMenu(optsLogs, "Logs"); finishing = false; } },
                 { "Snapshot", () => snapshotDel(db) },
                 { "Exit", () => Environment.Exit(0) },
             };

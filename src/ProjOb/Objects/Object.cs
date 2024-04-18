@@ -15,8 +15,8 @@ namespace ProjOb
 
         public virtual void OnIDChanged(object sender, IDUpdateArgs args)
         {
-            Logger.Info($"Object ID {ID}:");
-            Logger.Info($"  ID {ID} -> {args.NewObjectID}");
+            Logger.InfoAsync($"Object ID {ID}:");
+            Logger.InfoAsync($"  ID {ID} -> {args.NewObjectID}");
             ID = args.NewObjectID;
         }
         public virtual void OnPositionChanged(object sender, PositionUpdateArgs args) { }

@@ -15,19 +15,19 @@ namespace ProjOb.Events
 
         public void OnIDChanged(object sender, IDUpdateArgs args)
         {
-            Object? obj = null;
+            if (args.ObjectID == args.NewObjectID) return;
 
-            foreach (Object val in _db)
+            Object? obj = null;
+            foreach (Object val in _db.GetObjects())
             {
                 if (val.ID == args.ObjectID)
                     obj = val;
 
                 if (val.ID == args.NewObjectID)
                 {
-                    Logger.Error("Cannot change object ID: IDs conflict");
+                    Logger.ErrorAsync("Cannot change object ID: IDs conflict");
                     return;
                 }
-
             }
 
             obj?.OnIDChanged(sender, args);

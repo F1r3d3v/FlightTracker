@@ -18,10 +18,10 @@ namespace ProjOb
 
         public override void OnPositionChanged(object sender, PositionUpdateArgs args)
         {
-            Logger.Info($"Object ID {ID}:");
-            Logger.Info($"  Longitude {Longitude} -> {args.Longitude}");
-            Logger.Info($"  Latitude {Latitude} -> {args.Latitude}");
-            Logger.Info($"  AMSL {AMSL} -> {args.AMSL}");
+            Logger.InfoAsync($"Object ID {ID}:");
+            Logger.InfoAsync($"  Longitude {Longitude} -> {args.Longitude}");
+            Logger.InfoAsync($"  Latitude {Latitude} -> {args.Latitude}");
+            Logger.InfoAsync($"  AMSL {AMSL} -> {args.AMSL}");
             Longitude = args.Longitude;
             Latitude = args.Latitude;
             AMSL = args.AMSL;
