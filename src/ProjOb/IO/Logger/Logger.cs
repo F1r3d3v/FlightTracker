@@ -20,6 +20,11 @@
             }
         }
 
+        static Logger()
+        {
+            Enabled = true;
+        }
+
         // Async Methods
 
         public static void InfoAsync(String message) => LogAsync(LogLevel.Info, message);

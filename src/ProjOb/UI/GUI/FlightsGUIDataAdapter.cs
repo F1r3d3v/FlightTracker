@@ -1,81 +1,66 @@
-﻿using Mapsui.Projections;
-
-namespace ProjOb.UI
+﻿namespace ProjOb.UI
 {
     internal class FlightsGUIDataAdapter : IFlightTrackerAdapter
     {
-        private readonly Database _db;
-        private readonly Dictionary<UInt64, WorldPosition> _oldWorldPositions = [];
-        private DateTime referenceDate;
+        private readonly IFlightsGUIDataDecorator _decorator;
 
-        public FlightsGUIDataAdapter(Database db)
+        public FlightsGUIDataAdapter(IFlightsGUIDataDecorator decorator)
         {
-            _db = db;
-            referenceDate = DateTime.Today;
+            _decorator = decorator;
         }
 
-        public FlightsGUIData ConvertToFlightsGUIData(DateTime currentTime)
+        public FlightsGUIData ConvertToFlightsGUIData(DateTime currentTime, Database db)
         {
             List<FlightGUI> list = new List<FlightGUI>();
-            lock (_db.Flights.Values)
+
+            lock (db.Flights.Values)
             {
-                foreach (Flight flight in _db.Flights.Values)
+                foreach (Flight flight in db.Flights.Values)
                 {
-                    (double longitude, double latitude) departureCords = (flight.Origin?.Longitude ?? 0, flight.Origin?.Latitude ?? 0);
-                    (double longitude, double latitude) arrivalCords = (flight.Target?.Longitude ?? 0, flight.Target?.Latitude ?? 0);
+                    (TimeSpan elapsedTime, TimeSpan flightDuration) = CalculateElapsedAndTotalTime(flight, currentTime);
 
-                    TimeSpan flightDuration;
-                    if (flight.LandingTime >= flight.TakeoffTime)
-                        flightDuration = flight.LandingTime - flight.TakeoffTime;
-                    else
-                        flightDuration = TimeSpan.FromDays(1) - flight.TakeoffTime + flight.LandingTime;
-
-                    TimeSpan elapsedTime = currentTime - (referenceDate + flight.TakeoffTime);
-
-                    if (elapsedTime.Ticks <= 0 || flightDuration < elapsedTime) continue;
-
-                    double progress = elapsedTime / flightDuration;
-
-                    double currentLongitude = Lerp(departureCords.longitude, arrivalCords.longitude, progress);
-                    double currentLatitude = Lerp(departureCords.latitude, arrivalCords.latitude, progress);
-
-                    (double x, double y) currentPosition = SphericalMercator.FromLonLat(currentLongitude, currentLatitude);
-                    (double x, double y) previousPosition;
-
-                    lock (_oldWorldPositions)
+                    if (elapsedTime.Ticks > 0 && flightDuration >= elapsedTime)
                     {
-                        if (!_oldWorldPositions.ContainsKey(flight.ID))
+                        WorldPosition currentPosition = _decorator.GetWorldPosition(flight, elapsedTime, flightDuration);
+                        double currentRotation = _decorator.GetRotation(flight, currentPosition);
+
+                        lock (flight)
                         {
-                            previousPosition = SphericalMercator.FromLonLat(departureCords.longitude, departureCords.latitude);
-                        }
-                        else
-                        {
-                            previousPosition = SphericalMercator.FromLonLat(_oldWorldPositions[flight.ID].Longitude, _oldWorldPositions[flight.ID].Latitude);
+                            flight.Longitude = (float)currentPosition.Longitude;
+                            flight.Latitude = (float)currentPosition.Latitude;
                         }
 
-                        _oldWorldPositions[flight.ID] = new WorldPosition(currentLatitude, currentLongitude);
+                        list.Add(new FlightGUI
+                        {
+                            ID = flight.ID,
+                            WorldPosition = currentPosition,
+                            MapCoordRotation = currentRotation
+                        });
                     }
-
-                    list.Add(new FlightGUI
-                    {
-                        ID = flight.ID,
-                        WorldPosition = new WorldPosition(currentLatitude, currentLongitude),
-                        MapCoordRotation = CalcRotation(previousPosition, currentPosition)
-                    });
                 }
             }
 
             return new FlightsGUIData(list);
         }
 
-        private double Lerp(double start, double end, double progress)
+        private (TimeSpan elapsedTime, TimeSpan flightDuration) CalculateElapsedAndTotalTime(Flight flight, DateTime currentTime)
         {
-            return start + (end - start) * progress;
-        }
+            TimeSpan flightDuration;
+            TimeSpan elapsedTime;
+            if (flight.LandingTime >= flight.TakeoffTime)
+            {
+                flightDuration = flight.LandingTime - flight.TakeoffTime;
+                elapsedTime = currentTime.TimeOfDay - flight.TakeoffTime;
+            }
+            else
+            {
+                flightDuration = TimeSpan.FromDays(1) - flight.TakeoffTime + flight.LandingTime;
+                elapsedTime = currentTime.TimeOfDay >= flight.TakeoffTime
+                    ? currentTime.TimeOfDay - flight.TakeoffTime
+                    : flightDuration - (flight.LandingTime - currentTime.TimeOfDay);
+            }
 
-        private double CalcRotation((double, double) lastPos, (double, double) currPos)
-        {
-            return Math.Atan2(currPos.Item2 - lastPos.Item2, lastPos.Item1 - currPos.Item1) - Math.PI / 2.0;
+            return (elapsedTime, flightDuration);
         }
     }
 }

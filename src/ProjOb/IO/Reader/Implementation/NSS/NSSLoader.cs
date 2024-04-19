@@ -38,7 +38,7 @@ namespace ProjOb.IO
             Message msg = _nss.GetMessageAt(args.MessageIndex);
             Object obj = _parser.Parse(msg.MessageBytes);
 
-            IComponent dbComp = new DatabaseComponent(_db);
+            IComponent dbComp = new AddToDatabaseComponent(_db);
             lock(_db)
             {
                 obj.Apply(dbComp);

@@ -3,6 +3,6 @@ namespace ProjOb.UI
 {
     public interface IFlightTrackerAdapter
     {
-        FlightsGUIData ConvertToFlightsGUIData(DateTime currentTime);
+        FlightsGUIData ConvertToFlightsGUIData(DateTime currentTime, Database db);
     }
 }

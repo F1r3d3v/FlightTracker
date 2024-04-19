@@ -10,6 +10,8 @@
             [LogLevel.Debug] = ConsoleColor.Green
         };
 
+        public bool Enabled { get; set; } = true;
+
         public void Log(LogLevel logLevel, string message) => Log(new LogMessage(logLevel, message, DateTime.Now));
 
         public void Log(LogMessage message)

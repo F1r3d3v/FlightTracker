@@ -19,7 +19,7 @@ namespace ProjOb.IO
 
         public void LoadToDatabase(Database db)
         {
-            IComponent dbComp = new DatabaseComponent(db);
+            IComponent dbComp = new AddToDatabaseComponent(db);
 
             _validator.Validate(out Dictionary<String, String[]> records);
 

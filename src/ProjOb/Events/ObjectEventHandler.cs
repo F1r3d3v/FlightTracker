@@ -1,5 +1,6 @@
 ﻿using ProjOb.IO;
 using NetworkSourceSimulator;
+using ProjOb.Components;
 
 
 namespace ProjOb.Events
@@ -30,7 +31,15 @@ namespace ProjOb.Events
                 }
             }
 
-            obj?.OnIDChanged(sender, args);
+            if (obj == null)
+            {
+                Logger.ErrorAsync("Cannot change object ID: No object entry in database");
+                return;
+            }
+
+            obj.Apply(new RemoveFromDatabaseComponent(_db));
+            obj.OnIDChanged(sender, args);
+            obj.Apply(new AddToDatabaseComponent(_db));
         }
 
         public void OnPositionChanged(object sender, PositionUpdateArgs args)

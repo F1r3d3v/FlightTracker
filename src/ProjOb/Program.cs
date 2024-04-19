@@ -12,8 +12,10 @@ namespace ProjOb
             Logger.Providers = new()
             {
                 new FileLogProvider(LogPath)
+                {
+                    Enabled = true,
+                }
             };
-            Logger.Enabled = true;
             Logger.InfoAsync("---------- App started ----------");
             TUI.Run(db);
         }

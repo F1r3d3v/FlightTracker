@@ -1,10 +1,10 @@
 ﻿namespace ProjOb.Components
 {
-    public class DatabaseComponent : IComponent
+    public class AddToDatabaseComponent : IComponent
     {
         private Database _database;
 
-        public DatabaseComponent(Database database)
+        public AddToDatabaseComponent(Database database)
         {
             _database = database;
         }

@@ -62,6 +62,8 @@ namespace ProjOb.IO
 
         private void SendToProvider(LogMessage message, ILogProvider provider)
         {
+            if (!provider.Enabled) return;
+
             try
             {
                 Lock.EnterWriteLock();

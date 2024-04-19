@@ -3,6 +3,7 @@
     public class FileLogProvider : ILogProvider
     {
         private readonly String _basePath;
+        public bool Enabled { get; set; } = true;
 
         public FileLogProvider(String basePath)
         {

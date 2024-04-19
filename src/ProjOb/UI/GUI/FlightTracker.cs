@@ -13,12 +13,14 @@ namespace ProjOb.UI
         {
             Task t = Task.Run(() => Runner.Run());
 
-            FlightsGUIDataAdapter wrapper = new FlightsGUIDataAdapter(db);
+            IFlightsGUIDataDecorator positionDecorator = new DefaultFlightsGUIDataDecorator();
+            positionDecorator = new CustomFlightsGUIDataDecorator(positionDecorator);
+            IFlightTrackerAdapter wrapper = new FlightsGUIDataAdapter(positionDecorator);
 
             Timer timer = new(1000);
             timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
             {
-                FlightsGUIData data = wrapper.ConvertToFlightsGUIData(e.SignalTime);
+                FlightsGUIData data = wrapper.ConvertToFlightsGUIData(e.SignalTime, db);
                 Runner.UpdateGUI(data);
                 Console.WriteLine($"Current Time: {e.SignalTime:HH:mm:ss}");
             };
@@ -27,7 +29,7 @@ namespace ProjOb.UI
             while (!(Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime) || lifetime.MainWindow is null || !lifetime.MainWindow.IsLoaded)
                 Thread.Sleep(1);
 
-            FlightsGUIData data = wrapper.ConvertToFlightsGUIData(DateTime.Now);
+            FlightsGUIData data = wrapper.ConvertToFlightsGUIData(DateTime.Now, db);
             Runner.UpdateGUI(data);
             Console.WriteLine($"Current Time: {DateTime.Now:HH:mm:ss}");
             timer.Enabled = true;
