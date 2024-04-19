@@ -14,7 +14,7 @@ Projekt semestralny z przedmiotu Projektowanie Obiektowe mający na celu stworze
 - [x] Etap 2 - Nowe źródło danych
 - [x] Etap 3 - Integracja z GUI
 - [x] Etap 4 - Przegląd wiadomości
-- [ ] Etap 5 
+- [x] Etap 5 - Aktualizacja danych
 - [ ] Etap 6 
 
 ## Podsumowanie
