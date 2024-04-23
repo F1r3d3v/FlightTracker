@@ -38,20 +38,43 @@ namespace ProjOb.Events
             }
 
             obj.Apply(new RemoveFromDatabaseComponent(_db));
-            obj.OnIDChanged(sender, args);
+            lock (obj)
+            {
+                obj.OnIDChanged(sender, args);
+            }
             obj.Apply(new AddToDatabaseComponent(_db));
         }
 
         public void OnPositionChanged(object sender, PositionUpdateArgs args)
         {
             Object? obj = _db.GetObject(args.ObjectID);
-            obj?.OnPositionChanged(sender, args);
+
+            if (obj == null)
+            {
+                Logger.ErrorAsync("Cannot change object Position: No object entry in database");
+                return;
+            }
+
+            lock (obj)
+            {
+                obj.OnPositionChanged(sender, args);
+            }
         }
 
         public void OnContactInfoChanged(object sender, ContactInfoUpdateArgs args)
         {
             Object? obj = _db.GetObject(args.ObjectID);
-            obj?.OnContactInfoChanged(sender, args);
+
+            if (obj == null)
+            {
+                Logger.ErrorAsync("Cannot change object Contact Info: No object entry in database");
+                return;
+            }
+
+            lock (obj)
+            {
+                obj.OnContactInfoChanged(sender, args);
+            }
         }
     }
 }
