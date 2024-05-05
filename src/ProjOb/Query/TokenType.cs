@@ -1,0 +1,30 @@
+﻿namespace ProjOb.Query
+{
+    enum TokenType
+    {
+        Whitespace,
+        Identifier,
+        Number,
+        String,
+        Select,
+        From,
+        Where,
+        Plus,
+        Minus,
+        Mul,
+        Div,
+        Lower,
+        Greater,
+        LowerOrEqual,
+        GreaterOrEqual,
+        Equal,
+        NotEqual,
+        ConditionalAnd,
+        ConditionalOr,
+        ConditionalNegation,
+        Separator,
+        LeftParenthesis,
+        RightParenthesis,
+        EOS
+    }
+}

@@ -1,5 +1,7 @@
-﻿using ProjOb.IO;
+﻿using ProjOb.Exceptions;
+using ProjOb.IO;
 using ProjOb.Media;
+using ProjOb.Query;
 using static ProjOb.Constants;
 
 namespace ProjOb.UI
@@ -30,7 +32,6 @@ namespace ProjOb.UI
 
                 Console.WriteLine("\nPress Any key to continue...");
                 Console.ReadKey();
-                finishing = false;
             };
 
             var showLogs = () =>
@@ -91,7 +92,33 @@ namespace ProjOb.UI
                 {
                     db.Serialize($"snapshot_{DateTime.Now:HH_mm_ss}.json");
                 }
-                finishing = false;
+            };
+
+            var queryDel = () =>
+            {
+                Console.WriteLine("Enter Query:");
+                TerminalHelper.SetCursorVisibility(true);
+                String? str = Console.ReadLine();
+                TerminalHelper.SetCursorVisibility(false);
+                try
+                {
+                    Lexer l = new Lexer(str ?? "");
+                    do
+                    {
+                        Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
+                        l.NextToken = l.GetNextToken();
+                    }
+                    while (l.NextToken.Type != TokenType.EOS);
+                }
+                catch (InvalidTokenException e)
+                {
+                    TerminalHelper.MoveCursorToHome();
+                    TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.FromCurToEnd);
+                    Console.WriteLine(e.Message);
+                }
+
+                Console.WriteLine("\nPress Any key to continue...");
+                Console.ReadKey();
             };
 
             string[] src = ["Local Database", "Network Stream", "Local Database with Network Stream Changes"];
@@ -130,9 +157,10 @@ namespace ProjOb.UI
             var opts = new Dictionary<string, Action>()
             {
                 { "Flight Tracker", () => { FlightTracker.RunGUI(db); finishing = false; }  },
-                { "Report", () => reportDel(db) },
-                { "Logs", () => {SelectionMenu.CreateSelectionMenu(optsLogs, "Logs"); finishing = false; } },
-                { "Snapshot", () => snapshotDel(db) },
+                { "Query", () => { queryDel(); finishing = false; } },
+                { "Report", () => { reportDel(db); finishing = false; } },
+                { "Logs", () => { SelectionMenu.CreateSelectionMenu(optsLogs, "Logs"); finishing = false; } },
+                { "Snapshot", () => { snapshotDel(db); finishing = false; } },
                 { "Exit", () => Environment.Exit(0) },
             };
 
