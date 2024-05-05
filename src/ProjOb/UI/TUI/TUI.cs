@@ -103,12 +103,12 @@ namespace ProjOb.UI
                 try
                 {
                     Lexer l = new Lexer(str ?? "");
-                    do
+                    while (l.NextToken.Type != TokenType.EOS)
                     {
                         Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
                         l.NextToken = l.GetNextToken();
                     }
-                    while (l.NextToken.Type != TokenType.EOS);
+                    Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
                 }
                 catch (InvalidTokenException e)
                 {

@@ -17,8 +17,8 @@ namespace ProjOb.Query
             [TokenType.Where] = GetRegexFromWord("WHERE"),
             [TokenType.Plus] = GetRegexFromWord("+"),
             [TokenType.Minus] = GetRegexFromWord("-"),
-            [TokenType.Mul] = GetRegexFromWord("*"),
-            [TokenType.Div] = GetRegexFromWord("/"),
+            [TokenType.Asterisk] = GetRegexFromWord("*"),
+            [TokenType.Slash] = GetRegexFromWord("/"),
             [TokenType.Lower] = GetRegexFromWord("<"),
             [TokenType.Greater] = GetRegexFromWord(">"),
             [TokenType.LowerOrEqual] = GetRegexFromWord("<="),
@@ -75,8 +75,8 @@ namespace ProjOb.Query
         {
             word = Regex.Escape(word);
             return (new Regex("^\\w+$", RegexOptions.Compiled).IsMatch(word))
-                ? new Regex($"^({word})\\b", RegexOptions.Compiled | RegexOptions.IgnoreCase)
-                : new Regex($"^({word})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                ? new Regex($"^{word}\\b", RegexOptions.Compiled | RegexOptions.IgnoreCase)
+                : new Regex($"^{word}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         private Token? GetTokenFromRegex(TokenType type, Regex reg)
@@ -85,7 +85,7 @@ namespace ProjOb.Query
             if ((match = reg.Match(_input.ToString())).Success)
             {
                 _input.Remove(0, match.Length);
-                return new Token(type, (match.Groups.Count > 1) ? match.Groups[1].Value : match.Value);
+                return new Token(type, (type == TokenType.String) ? match.Groups[1].Value : match.Value);
             }
             return null;
         }
