@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProjOb.Query.AST
 {
-    public class WhereNode : ASTNode
+    public class VarlistNode
     {
-        public override ASTNode? Visit(IVisitorAST visitor) => visitor.Accept(this);
+        public List<IdentifierNode> Identifiers = [];
     }
 }

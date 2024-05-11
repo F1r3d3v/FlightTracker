@@ -103,12 +103,14 @@ namespace ProjOb.UI
                 try
                 {
                     Lexer l = new Lexer(str ?? "");
-                    while (l.NextToken.Type != TokenType.EOS)
-                    {
-                        Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
-                        l.NextToken = l.GetNextToken();
-                    }
-                    Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
+                    Parser p = new Parser(l);
+                    ASTNode root = p.Parse();
+                    //while (l.NextToken.Type != TokenType.EOS)
+                    //{
+                    //    Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
+                    //    l.NextToken = l.GetNextToken();
+                    //}
+                    //Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
                 }
                 catch (InvalidTokenException e)
                 {

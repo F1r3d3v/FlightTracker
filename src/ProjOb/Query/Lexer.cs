@@ -4,10 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace ProjOb.Query
 {
-    internal class Lexer
+    public class Lexer
     {
         private StringBuilder _input;
-        public Token NextToken { get; set; }
+        public Token NextToken { get; private set; }
 
         private static readonly Dictionary<TokenType, Regex> _Tokens = new()
         {
@@ -19,10 +19,10 @@ namespace ProjOb.Query
             [TokenType.Minus] = GetRegexFromWord("-"),
             [TokenType.Asterisk] = GetRegexFromWord("*"),
             [TokenType.Slash] = GetRegexFromWord("/"),
-            [TokenType.Lower] = GetRegexFromWord("<"),
+            [TokenType.Less] = GetRegexFromWord("<"),
             [TokenType.Greater] = GetRegexFromWord(">"),
-            [TokenType.LowerOrEqual] = GetRegexFromWord("<="),
-            [TokenType.GreaterOrEqual] = GetRegexFromWord(">="),
+            [TokenType.LessEqual] = GetRegexFromWord("<="),
+            [TokenType.GreaterEqual] = GetRegexFromWord(">="),
             [TokenType.Equal] = GetRegexFromWord("="),
             [TokenType.NotEqual] = GetRegexFromWord("!="),
             [TokenType.ConditionalAnd] = GetRegexFromWord("AND"),
@@ -52,7 +52,7 @@ namespace ProjOb.Query
             return false;
         }
 
-        public Token GetNextToken()
+        private Token GetNextToken()
         {
             foreach (var pair in _Tokens)
             {

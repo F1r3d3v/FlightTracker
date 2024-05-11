@@ -1,6 +1,6 @@
 ﻿namespace ProjOb.Query
 {
-    enum TokenType
+    public enum TokenType
     {
         Whitespace,
         Select,
@@ -10,10 +10,10 @@
         Minus,
         Asterisk,
         Slash,
-        Lower,
+        Less,
         Greater,
-        LowerOrEqual,
-        GreaterOrEqual,
+        LessEqual,
+        GreaterEqual,
         Equal,
         NotEqual,
         ConditionalAnd,

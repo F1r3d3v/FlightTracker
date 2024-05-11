@@ -1,6 +1,6 @@
 ﻿namespace ProjOb.Query
 {
-    internal class Token
+    public class Token
     {
         public TokenType Type { get; set; }
         public String Value { get; set; }

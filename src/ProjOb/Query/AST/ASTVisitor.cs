@@ -1,6 +1,11 @@
-﻿namespace ProjOb.Query
+﻿using ProjOb.Query.AST;
+
+namespace ProjOb.Query
 {
-    internal class ASTVisitor
+    public class ASTVisitor : IVisitorAST
     {
+        public QueryResult? Result { get; private set; }
+
+        public ASTVisitor() { }
     }
 }

@@ -12,7 +12,6 @@ namespace ProjOb.Query.AST
         ASTNode? Accept(NumberNode node) => default;
         ASTNode? Accept(StringNode node) => default;
         ASTNode? Accept(SelectNode node) => default;
-        ASTNode? Accept(WhereNode node) => default;
         ASTNode? Accept(BinOpNode node) => default;
         ASTNode? Accept(UnOpNode node) => default;
     }
