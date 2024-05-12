@@ -1,6 +1,6 @@
 ﻿namespace ProjOb.Media
 {
-    public interface IReportable : IExpandable<string>
+    public interface IReportable : IExpandable
     {
     }
 }

@@ -2,6 +2,7 @@
 using ProjOb.IO;
 using ProjOb.Media;
 using ProjOb.Query;
+using ProjOb.Query.Wrappers;
 using static ProjOb.Constants;
 
 namespace ProjOb.UI
@@ -105,14 +106,11 @@ namespace ProjOb.UI
                     Lexer l = new Lexer(str ?? "");
                     Parser p = new Parser(l);
                     ASTNode root = p.Parse();
-                    //while (l.NextToken.Type != TokenType.EOS)
-                    //{
-                    //    Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
-                    //    l.NextToken = l.GetNextToken();
-                    //}
-                    //Console.WriteLine($"Type: {l.NextToken.Type}, Value: {l.NextToken.Value}");
+                    Object obj = db.Crews[39];
+                    IQueryAccessor accessor = obj.Apply(new AccessorVisitor());
+                    accessor.GetValue("ID");
                 }
-                catch (InvalidTokenException e)
+                catch (Exception e) when (e is InvalidTokenException || e is ParseTreeException)
                 {
                     TerminalHelper.MoveCursorToHome();
                     TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.FromCurToEnd);

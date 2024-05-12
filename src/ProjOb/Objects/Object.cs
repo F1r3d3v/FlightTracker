@@ -5,13 +5,13 @@ using ProjOb.IO;
 
 namespace ProjOb
 {
-    public abstract class Object : IExpandable, IExpandable<string>, IObjectObserver
+    public abstract class Object : IExpandable, IObjectObserver
     {
         [JsonPropertyOrder(-8)]
         public UInt64 ID { get; set; }
 
         public abstract void Apply(IComponent component);
-        public abstract string Apply(IComponent<string> component);
+        public abstract T Apply<T>(IComponent<T> component);
 
         public virtual void OnIDChanged(object sender, IDUpdateArgs args)
         {
