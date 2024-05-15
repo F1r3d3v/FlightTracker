@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjOb.Query.AST
 {
-    public class IdentifierNode : ASTNode
+    public class IdentifierNode : ASTExpressionNode
     {
         public String Value { get; set; }
 
@@ -15,6 +15,6 @@ namespace ProjOb.Query.AST
             Value = value;
         }
 
-        public override ASTNode? Visit(IVisitorAST visitor) => visitor.Accept(this);
+        public override void Visit(IExpressionVisitorAST visitor) => visitor.Accept(this);
     }
 }

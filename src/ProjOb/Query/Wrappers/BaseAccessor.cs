@@ -13,7 +13,16 @@ namespace ProjOb.Query.Wrappers
 
         public virtual String? GetValue(String value)
         {
-            if (_getValueMap.TryGetValue(value, out Func<String?>? fun))
+            if (value == "*")
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("{ ");
+                sb.Append(String.Join(", ", _getValueMap.Values.Select(x => x())));
+                sb.Append(" }");
+
+                return sb.ToString();
+            }
+            else if (_getValueMap.TryGetValue(value, out Func<String?>? fun))
             {
                 return fun();
             }
@@ -23,11 +32,11 @@ namespace ProjOb.Query.Wrappers
             }
         }
 
-        public virtual void SetValue(string param, string value)
+        public virtual void SetValue(String param, String value)
         {
             if (_setValueMap.TryGetValue(param, out Action<String>? fun))
             {
-                fun!(value);
+                fun(value);
             }
             else
             {

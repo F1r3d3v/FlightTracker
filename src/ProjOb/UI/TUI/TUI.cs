@@ -2,6 +2,7 @@
 using ProjOb.IO;
 using ProjOb.Media;
 using ProjOb.Query;
+using ProjOb.Query.AST;
 using ProjOb.Query.Wrappers;
 using static ProjOb.Constants;
 
@@ -105,10 +106,23 @@ namespace ProjOb.UI
                 {
                     Lexer l = new Lexer(str ?? "");
                     Parser p = new Parser(l);
-                    ASTNode root = p.Parse();
-                    Object obj = db.Crews[39];
+                    ASTQueryNode root = p.Parse();
+
+                    Object obj = db.Flights[1042];
                     IQueryAccessor accessor = obj.Apply(new AccessorVisitor());
-                    accessor.GetValue("ID");
+                    String? pos = accessor.GetValue("WorldPosition");
+
+                    ITable t = new TableDecorator(new Table());
+                    t.AddColumn("ID");
+                    t.AddColumn("Time");
+                    t.AddColumn("WorldPosition");
+                    if (pos != null)
+                    {
+                        t.AddRow(["1042", $"{DateTime.Now}", pos]);
+                    }
+
+                    Console.WriteLine("\nQuery Output:");
+                    t.Display();
                 }
                 catch (Exception e) when (e is InvalidTokenException || e is ParseTreeException)
                 {

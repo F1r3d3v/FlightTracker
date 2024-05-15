@@ -1,4 +1,5 @@
 ﻿using BruTile.Wms;
+using DynamicData;
 using Mapsui.Utilities;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,9 @@ namespace ProjOb.Query.Wrappers
 
         public override String? GetValue(String value)
         {
-            String[] split = value.Split('.', 2);
+            var split = value.Split('.', 2).ToList();
+            if (split.Count < 2) split.Add("*");
+
             if (split[0] == "Origin")
             {
                 return new AirportAccessor(_flight.Origin!).GetValue(split[1]);

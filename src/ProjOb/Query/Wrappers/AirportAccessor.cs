@@ -29,7 +29,9 @@ namespace ProjOb.Query.Wrappers
 
         public override String? GetValue(String value)
         {
-            String[] split = value.Split('.', 2);
+            var split = value.Split('.', 2).ToList();
+            if (split.Count < 2) split.Add("*");
+
             if (split[0] == "WorldPosition")
             {
                 var pos = new WorldPosition(_airport.Latitude, _airport.Longitude);

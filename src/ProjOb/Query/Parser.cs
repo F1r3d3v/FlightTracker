@@ -13,9 +13,9 @@ namespace ProjOb.Query
             _lex = lex;
         }
 
-        public ASTNode Parse()
+        public ASTQueryNode Parse()
         {
-            ASTNode result = ParseQuery();
+            ASTQueryNode result = ParseQuery();
             if (_lex.NextToken.Type != TokenType.EOS)
             {
                 throw new ParseTreeException("Can't parse the Query!");
@@ -24,24 +24,24 @@ namespace ProjOb.Query
             return result;
         }
 
-        private ASTNode ParseQuery()
+        private ASTQueryNode ParseQuery()
         {
             if (_lex.MatchTokenAndAdvance(TokenType.Select))
                 return ParseSelect();
             else
-                throw new ParseTreeException();
+                throw new ParseTreeException("Can't parse the Query!");
         }
 
-        private ASTNode ParseSelect()
+        private ASTQueryNode ParseSelect()
         {
             List<IdentifierNode> list = ParseVarlist();
             if (!_lex.MatchTokenAndAdvance(TokenType.From))
-                throw new ParseTreeException();
+                throw new ParseTreeException("Can't parse the Query!");
 
             IdentifierNode obj = new IdentifierNode(_lex.NextToken.Value);
             _lex.MatchTokenAndAdvance(TokenType.Identifier);
 
-            ASTNode? node = null;
+            ASTExpressionNode? node = null;
             if (_lex.MatchTokenAndAdvance(TokenType.Where))
                 node = ParseLogicExpression();
 
@@ -52,7 +52,7 @@ namespace ProjOb.Query
         {
             List<IdentifierNode> l = [];
             if (_lex.NextToken.Type != TokenType.Identifier)
-                throw new ParseTreeException();
+                throw new ParseTreeException("Can't parse the Query!");
 
             l.Add(new IdentifierNode(_lex.NextToken.Value));
             _lex.MatchTokenAndAdvance(TokenType.Identifier);
@@ -62,7 +62,7 @@ namespace ProjOb.Query
                 if (_lex.MatchTokenAndAdvance(TokenType.Separator))
                 {
                     if (_lex.NextToken.Type != TokenType.Identifier)
-                        throw new ParseTreeException();
+                        throw new ParseTreeException("Can't parse the Query!");
 
                     l.Add(new IdentifierNode(_lex.NextToken.Value));
                     _lex.MatchTokenAndAdvance(TokenType.Identifier);
@@ -74,14 +74,14 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseLogicExpression()
+        private ASTExpressionNode ParseLogicExpression()
         {
-            ASTNode a = ParseLogicTerm();
+            ASTExpressionNode a = ParseLogicTerm();
             while (true)
             {
                 if (_lex.MatchTokenAndAdvance(TokenType.ConditionalOr))
                 {
-                    ASTNode b = ParseLogicTerm();
+                    ASTExpressionNode b = ParseLogicTerm();
                     a = new BinOpNode(a, b, BinOpType.CondOr);
                 }
                 else
@@ -89,14 +89,14 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseLogicTerm()
+        private ASTExpressionNode ParseLogicTerm()
         {
-            ASTNode a = ParseLogicFactor();
+            ASTExpressionNode a = ParseLogicFactor();
             while (true)
             {
                 if (_lex.MatchTokenAndAdvance(TokenType.ConditionalAnd))
                 {
-                    ASTNode b = ParseLogicFactor();
+                    ASTExpressionNode b = ParseLogicFactor();
                     a = new BinOpNode(a, b, BinOpType.CondAnd);
                 }
                 else
@@ -104,7 +104,7 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseLogicFactor()
+        private ASTExpressionNode ParseLogicFactor()
         {
             if (_lex.MatchTokenAndAdvance(TokenType.ConditionalNegation))
             {
@@ -116,39 +116,39 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseRelationExpression()
+        private ASTExpressionNode ParseRelationExpression()
         {
-            ASTNode a = ParseArithmeticExpression();
+            ASTExpressionNode a = ParseArithmeticExpression();
             while (true)
             {
                 if (_lex.MatchTokenAndAdvance(TokenType.Less))
                 {
-                    ASTNode b = ParseArithmeticExpression();
+                    ASTExpressionNode b = ParseArithmeticExpression();
                     a = new BinOpNode(a, b, BinOpType.Less);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.LessEqual))
                 {
-                    ASTNode b = ParseArithmeticExpression();
+                    ASTExpressionNode b = ParseArithmeticExpression();
                     a = new BinOpNode(a, b, BinOpType.LessEqual);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.Greater))
                 {
-                    ASTNode b = ParseArithmeticExpression();
+                    ASTExpressionNode b = ParseArithmeticExpression();
                     a = new BinOpNode(a, b, BinOpType.Greater);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.GreaterEqual))
                 {
-                    ASTNode b = ParseArithmeticExpression();
+                    ASTExpressionNode b = ParseArithmeticExpression();
                     a = new BinOpNode(a, b, BinOpType.GreaterEqual);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.Equal))
                 {
-                    ASTNode b = ParseArithmeticExpression();
+                    ASTExpressionNode b = ParseArithmeticExpression();
                     a = new BinOpNode(a, b, BinOpType.Equal);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.NotEqual))
                 {
-                    ASTNode b = ParseArithmeticExpression();
+                    ASTExpressionNode b = ParseArithmeticExpression();
                     a = new BinOpNode(a, b, BinOpType.NotEqual);
                 }
                 else
@@ -156,19 +156,19 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseArithmeticExpression()
+        private ASTExpressionNode ParseArithmeticExpression()
         {
-            ASTNode a = ParseArithmeticTerm();
+            ASTExpressionNode a = ParseArithmeticTerm();
             while (true)
             {
                 if (_lex.MatchTokenAndAdvance(TokenType.Plus))
                 {
-                    ASTNode b = ParseArithmeticTerm();
+                    ASTExpressionNode b = ParseArithmeticTerm();
                     a = new BinOpNode(a, b, BinOpType.Add);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.Minus))
                 {
-                    ASTNode b = ParseArithmeticTerm();
+                    ASTExpressionNode b = ParseArithmeticTerm();
                     a = new BinOpNode(a, b, BinOpType.Subtract);
                 }
                 else
@@ -176,19 +176,19 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseArithmeticTerm()
+        private ASTExpressionNode ParseArithmeticTerm()
         {
-            ASTNode a = ParseArithmeticFactor();
+            ASTExpressionNode a = ParseArithmeticFactor();
             while (true)
             {
                 if (_lex.MatchTokenAndAdvance(TokenType.Asterisk))
                 {
-                    ASTNode b = ParseArithmeticFactor();
+                    ASTExpressionNode b = ParseArithmeticFactor();
                     a = new BinOpNode(a, b, BinOpType.Multiply);
                 }
                 else if (_lex.MatchTokenAndAdvance(TokenType.Slash))
                 {
-                    ASTNode b = ParseArithmeticFactor();
+                    ASTExpressionNode b = ParseArithmeticFactor();
                     a = new BinOpNode(a, b, BinOpType.Divide);
                 }
                 else
@@ -196,7 +196,7 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseArithmeticFactor()
+        private ASTExpressionNode ParseArithmeticFactor()
         {
             if (_lex.MatchTokenAndAdvance(TokenType.Minus))
             {
@@ -208,7 +208,7 @@ namespace ProjOb.Query
             }
         }
 
-        private ASTNode ParseAtom()
+        private ASTExpressionNode ParseAtom()
         {
             String val = _lex.NextToken.Value;
             if (_lex.MatchTokenAndAdvance(TokenType.Identifier))
@@ -225,15 +225,15 @@ namespace ProjOb.Query
             }
             else if (_lex.MatchTokenAndAdvance(TokenType.LeftParenthesis))
             {
-                ASTNode node = ParseLogicExpression();
+                ASTExpressionNode node = ParseLogicExpression();
                 if (_lex.MatchTokenAndAdvance(TokenType.RightParenthesis))
                     return node;
                 else
-                    throw new ParseTreeException();
+                    throw new ParseTreeException("Can't parse the Query!");
             }
             else
             {
-                throw new ParseTreeException();
+                throw new ParseTreeException("Can't parse the Query!");
             }
         }
 

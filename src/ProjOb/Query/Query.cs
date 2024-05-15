@@ -4,16 +4,16 @@ namespace ProjOb.Query
 {
     public class Query
     {
-        private readonly ASTNode _query;
+        private readonly ASTQueryNode _query;
 
-        public Query(ASTNode query) 
+        public Query(ASTQueryNode query) 
         {
             _query = query;
         }
 
         public QueryResult Execute()
         {
-            ASTVisitor visitor = new ASTVisitor();
+            ASTQueryVisitor visitor = new ASTQueryVisitor();
             _query.Visit(visitor);
 
             return visitor.Result!;

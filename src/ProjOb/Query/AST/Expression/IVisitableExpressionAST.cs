@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProjOb.Query.AST
 {
-    public interface IVisitableAST
+    public interface IVisitableExpressionAST
     {
-        ASTNode? Visit(IVisitorAST visitor);
+        void Visit(IExpressionVisitorAST visitor);
     }
 }

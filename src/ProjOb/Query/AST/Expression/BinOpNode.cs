@@ -22,19 +22,19 @@ namespace ProjOb.Query.AST
         CondOr
     }
 
-    public class BinOpNode : ASTNode
+    public class BinOpNode : ASTExpressionNode
     {
-        public ASTNode Left { get; private set; }
-        public ASTNode Right { get; private set; }
+        public ASTExpressionNode Left { get; private set; }
+        public ASTExpressionNode Right { get; private set; }
         public BinOpType Type { get; private set; }
 
-        public BinOpNode(ASTNode left, ASTNode right, BinOpType type)
+        public BinOpNode(ASTExpressionNode left, ASTExpressionNode right, BinOpType type)
         {
             Left = left;
             Right = right;
             Type = type;
         }
 
-        public override ASTNode? Visit(IVisitorAST visitor) => visitor.Accept(this);
+        public override void Visit(IExpressionVisitorAST visitor) => visitor.Accept(this);
     }
 }

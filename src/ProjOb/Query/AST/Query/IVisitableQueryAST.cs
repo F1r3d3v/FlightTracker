@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ProjOb.Query.AST
 {
-    public class VarlistNode
+    public interface IVisitableQueryAST
     {
-        public List<IdentifierNode> Identifiers = [];
+        void Visit(IQueryVisitorAST visitor);
     }
 }

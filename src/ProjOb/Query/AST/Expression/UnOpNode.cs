@@ -12,17 +12,17 @@ namespace ProjOb.Query.AST
         CondNot
     }
 
-    public class UnOpNode : ASTNode
+    public class UnOpNode : ASTExpressionNode
     {
-        public ASTNode Arg { get; private set; }
+        public ASTExpressionNode Arg { get; private set; }
         public UnOpType Type { get; private set; }
 
-        public UnOpNode(ASTNode arg, UnOpType type)
+        public UnOpNode(ASTExpressionNode arg, UnOpType type)
         {
             Arg = arg;
             Type = type;
         }   
 
-        public override ASTNode? Visit(IVisitorAST visitor) => visitor.Accept(this);
+        public override void Visit(IExpressionVisitorAST visitor) => visitor.Accept(this);
     }
 }
