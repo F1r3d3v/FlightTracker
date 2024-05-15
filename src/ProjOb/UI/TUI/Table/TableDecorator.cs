@@ -62,7 +62,7 @@ namespace ProjOb.UI
                 var formattedLines = new List<String>
                 {
                     FormatRow(lines[0]),
-                    String.Join('+', columnsMaxWidth.Select(x => new String('-', x + 2)))
+                    String.Join('+', columnsMaxWidth.Select(x => new String('-', x + 2))) // +2 for left & right padding
                 };
 
                 for (int j = 1; j < lines.Length; ++j)

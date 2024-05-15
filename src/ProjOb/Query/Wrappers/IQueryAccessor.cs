@@ -10,5 +10,6 @@ namespace ProjOb.Query.Wrappers
     {
         String? GetValue(String value);
         void SetValue(String param, String value);
+        IEnumerable<String> GetFields();
     }
 }

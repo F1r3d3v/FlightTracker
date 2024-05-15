@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjOb.Query.AST
+namespace ProjOb.Query.Invoker
 {
-    public class ASTQueryVisitor : IQueryVisitorAST
+    public class AddCommand : IQueryCommand
     {
-        public QueryResult? Result { get; private set; }
-
-        public void Accept(DisplayNode node)
+        public void Execute()
         {
             throw new NotImplementedException();
         }

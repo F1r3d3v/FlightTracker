@@ -34,7 +34,10 @@ namespace ProjOb.Query
 
         private ASTQueryNode ParseSelect()
         {
-            List<IdentifierNode> list = ParseVarlist();
+            List<IdentifierNode>? list = null;
+            if (!_lex.MatchTokenAndAdvance(TokenType.Asterisk))
+                list = ParseVarlist();
+
             if (!_lex.MatchTokenAndAdvance(TokenType.From))
                 throw new ParseTreeException("Can't parse the Query!");
 
@@ -45,7 +48,7 @@ namespace ProjOb.Query
             if (_lex.MatchTokenAndAdvance(TokenType.Where))
                 node = ParseLogicExpression();
 
-            return new SelectNode(obj, list, node);
+            return new DisplayNode(obj, list, node);
         }
 
         private List<IdentifierNode> ParseVarlist()

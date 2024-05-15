@@ -8,6 +8,6 @@ namespace ProjOb.Query.AST
 {
     public interface IQueryVisitorAST
     {
-        void Accept(SelectNode node);
+        void Accept(DisplayNode node);
     }
 }

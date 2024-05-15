@@ -8,8 +8,8 @@ namespace ProjOb.Query.Wrappers
 {
     public abstract class BaseAccessor : IQueryAccessor
     {
-        protected readonly Dictionary<String, Func<String?>> _getValueMap = [];
-        protected readonly Dictionary<String, Action<String>> _setValueMap = [];
+        protected readonly Dictionary<String, Func<String?>> _getValueMap = new(StringComparer.OrdinalIgnoreCase);
+        protected readonly Dictionary<String, Action<String>> _setValueMap = new(StringComparer.OrdinalIgnoreCase);
 
         public virtual String? GetValue(String value)
         {
@@ -42,6 +42,11 @@ namespace ProjOb.Query.Wrappers
             {
                 throw new ArgumentException();
             }
+        }
+
+        public IEnumerable<String> GetFields()
+        {
+            return _getValueMap.Keys;
         }
     }
 }

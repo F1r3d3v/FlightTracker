@@ -6,14 +6,12 @@ namespace ProjOb.Query
     public class ASTExpressionVisitor : IExpressionVisitorAST
     {
         private readonly Object _object;
-        private readonly Database _db;
         private readonly AccessorVisitor accessorComponent = new AccessorVisitor();
-        //private ASTType type;
+        public double Result { get; private set; }
 
-        public ASTExpressionVisitor(Object obj, Database db)
+        public ASTExpressionVisitor(Object obj)
         {
             _object = obj;
-            _db = db;
         }
 
         public void Accept(IdentifierNode node)

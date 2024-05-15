@@ -3,6 +3,7 @@ using ProjOb.IO;
 using ProjOb.Media;
 using ProjOb.Query;
 using ProjOb.Query.AST;
+using ProjOb.Query.Invoker;
 using ProjOb.Query.Wrappers;
 using static ProjOb.Constants;
 
@@ -100,31 +101,27 @@ namespace ProjOb.UI
             {
                 Console.WriteLine("Enter Query:");
                 TerminalHelper.SetCursorVisibility(true);
-                String? str = Console.ReadLine();
+                String str = Console.ReadLine() ?? "";
                 TerminalHelper.SetCursorVisibility(false);
                 try
                 {
-                    Lexer l = new Lexer(str ?? "");
+                    Lexer l = new Lexer(str);
                     Parser p = new Parser(l);
                     ASTQueryNode root = p.Parse();
 
-                    Object obj = db.Flights[1042];
-                    IQueryAccessor accessor = obj.Apply(new AccessorVisitor());
-                    String? pos = accessor.GetValue("WorldPosition");
+                    QueryReceiver rec = new QueryReceiver(db);
+                    QueryInvoker inv = new QueryInvoker();
+                    var command = new DisplayCommand(rec, (root as DisplayNode)!);
+                    inv.SetCommand(command);
+                    inv.InvokeCommand();
+                    QueryResult? res = command.getResult();
+                    res?.Display();
 
-                    ITable t = new TableDecorator(new Table());
-                    t.AddColumn("ID");
-                    t.AddColumn("Time");
-                    t.AddColumn("WorldPosition");
-                    if (pos != null)
-                    {
-                        t.AddRow(["1042", $"{DateTime.Now}", pos]);
-                    }
-
-                    Console.WriteLine("\nQuery Output:");
-                    t.Display();
+                    Console.WriteLine("Query Executed Successfully!");
                 }
-                catch (Exception e) when (e is InvalidTokenException || e is ParseTreeException)
+                catch (Exception e) when (e is InvalidTokenException ||
+                                          e is ParseTreeException || 
+                                          e is QueryExecutionException)
                 {
                     TerminalHelper.MoveCursorToHome();
                     TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.FromCurToEnd);
