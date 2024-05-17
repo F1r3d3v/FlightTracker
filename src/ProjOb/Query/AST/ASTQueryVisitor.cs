@@ -1,10 +1,4 @@
-﻿using Avalonia;
-using ProjOb.Query.Invoker;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProjOb.Query.Invoker;
 
 namespace ProjOb.Query.AST
 {

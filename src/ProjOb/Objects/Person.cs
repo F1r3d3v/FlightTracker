@@ -1,6 +1,6 @@
 ﻿using NetworkSourceSimulator;
-using System.Text.Json.Serialization;
 using ProjOb.IO;
+using System.Text.Json.Serialization;
 
 namespace ProjOb
 {

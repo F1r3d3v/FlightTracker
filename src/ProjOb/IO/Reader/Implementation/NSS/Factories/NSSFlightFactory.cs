@@ -1,7 +1,4 @@
-﻿using NetworkSourceSimulator;
-using System.Xml.Linq;
-
-namespace ProjOb.IO
+﻿namespace ProjOb.IO
 {
     internal class NSSFlightFactory : NSSObjectFactory
     {

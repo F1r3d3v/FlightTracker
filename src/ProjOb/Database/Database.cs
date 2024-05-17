@@ -31,15 +31,15 @@ namespace ProjOb
 
         public Object? GetObject(UInt64 id)
         {
-           Dictionary<UInt64, Object>[] dicts = [
-                Crews.ToDictionary(x => x.Key, x => (Object)x.Value),
+            Dictionary<UInt64, Object>[] dicts = [
+                 Crews.ToDictionary(x => x.Key, x => (Object)x.Value),
                 Passengers.ToDictionary(x => x.Key, x => (Object)x.Value),
                 Cargos.ToDictionary(x => x.Key, x => (Object)x.Value),
                 CargoPlanes.ToDictionary(x => x.Key, x => (Object)x.Value),
                 PassengerPlanes.ToDictionary(x => x.Key, x => (Object)x.Value),
                 Airports.ToDictionary(x => x.Key, x => (Object)x.Value),
                 Flights.ToDictionary(x => x.Key, x => (Object)x.Value)
-            ];
+             ];
 
             foreach (var dict in dicts)
             {

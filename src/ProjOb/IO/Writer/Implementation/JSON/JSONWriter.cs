@@ -11,7 +11,7 @@ namespace ProjOb.IO
         {
             TypeInfoResolver = new DefaultJsonTypeInfoResolver
             {
-                Modifiers = 
+                Modifiers =
                 {
                     JSONModifiers.OnlyIDModifier,
                     JSONModifiers.OnlyDictValModifier

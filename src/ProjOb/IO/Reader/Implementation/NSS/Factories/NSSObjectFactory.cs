@@ -1,6 +1,4 @@
-﻿using NetworkSourceSimulator;
-
-namespace ProjOb.IO
+﻿namespace ProjOb.IO
 {
     internal abstract class NSSObjectFactory
     {

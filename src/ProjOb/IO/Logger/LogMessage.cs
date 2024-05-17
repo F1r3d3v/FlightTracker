@@ -12,7 +12,7 @@
             Description = description;
             Time = time;
         }
-        
-        public override string ToString() => $"{Time:HH:mm:ss} | {String.Format("{0}", $"[{LogLevel}]"), -9} | {Description}";
+
+        public override string ToString() => $"{Time:HH:mm:ss} | {String.Format("{0}", $"[{LogLevel}]"),-9} | {Description}";
     }
 }

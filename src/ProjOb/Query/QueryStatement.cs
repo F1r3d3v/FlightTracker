@@ -7,7 +7,7 @@ namespace ProjOb.Query
         private readonly String _query;
         private readonly Database _db;
 
-        public QueryStatement(String query, Database db) 
+        public QueryStatement(String query, Database db)
         {
             _query = query;
             _db = db;

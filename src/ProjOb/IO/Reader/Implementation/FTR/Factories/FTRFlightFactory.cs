@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace ProjOb.IO
+﻿namespace ProjOb.IO
 {
     internal class FTRFlightFactory : FTRObjectFactory
     {

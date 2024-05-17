@@ -1,6 +1,6 @@
 ﻿using NetworkSourceSimulator;
-using ProjOb.Media;
 using ProjOb.IO;
+using ProjOb.Media;
 
 namespace ProjOb
 {

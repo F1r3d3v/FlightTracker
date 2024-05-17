@@ -33,7 +33,7 @@ namespace ProjOb.IO
                 _name = Encoding.UTF8.GetString(msg, 17, nameLength).TrimEnd('\0');
                 _age = BitConverter.ToUInt16(msg, 17 + nameLength);
                 _phone = Encoding.UTF8.GetString(msg, 19 + nameLength, 12).TrimEnd('\0');
-                UInt16 emailLength = BitConverter.ToUInt16( msg, 31 + nameLength);
+                UInt16 emailLength = BitConverter.ToUInt16(msg, 31 + nameLength);
                 _email = Encoding.UTF8.GetString(msg, 33 + nameLength, emailLength).TrimEnd('\0');
                 _practice = BitConverter.ToUInt16(msg, 33 + nameLength + emailLength);
                 _role = Encoding.UTF8.GetString(msg, 35 + nameLength + emailLength, 1).TrimEnd('\0');

@@ -42,7 +42,7 @@ namespace ProjOb.IO
                     {
                         throw new DataIntegrityException("Invalid amount of parameters.");
                     }
-                }    
+                }
                 else
                 {
                     throw new DataIntegrityException($"Unknown type: {rec.Value[0]}");

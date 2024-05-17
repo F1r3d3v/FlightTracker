@@ -1,5 +1,5 @@
-﻿using ProjOb.Components;
-using NetworkSourceSimulator;
+﻿using NetworkSourceSimulator;
+using ProjOb.Components;
 using ProjOb.Events;
 
 namespace ProjOb.IO
@@ -39,7 +39,7 @@ namespace ProjOb.IO
             Object obj = _parser.Parse(msg.MessageBytes);
 
             IComponent dbComp = new AddToDatabaseComponent(_db);
-            lock(_db)
+            lock (_db)
             {
                 obj.Apply(dbComp);
                 _linker.Link(msg.MessageBytes, _db);

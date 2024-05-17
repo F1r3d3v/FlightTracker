@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjOb.Query.AST
+﻿namespace ProjOb.Query.AST
 {
     public enum UnOpType
     {
@@ -21,7 +15,7 @@ namespace ProjOb.Query.AST
         {
             Arg = arg;
             Type = type;
-        }   
+        }
 
         public override void Visit(IExpressionVisitorAST visitor) => visitor.Accept(this);
     }

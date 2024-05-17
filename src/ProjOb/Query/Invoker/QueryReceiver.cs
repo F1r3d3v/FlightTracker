@@ -1,7 +1,5 @@
-﻿using ProjOb.Exceptions;
-using ProjOb.Objects;
+﻿using ProjOb.Objects;
 using ProjOb.Query.Wrappers;
-using System.Text;
 
 namespace ProjOb.Query.Invoker
 {

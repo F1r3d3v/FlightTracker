@@ -1,9 +1,6 @@
-﻿using ProjOb.Exceptions;
-using ProjOb.IO;
+﻿using ProjOb.IO;
 using ProjOb.Media;
 using ProjOb.Query;
-using ProjOb.Query.AST;
-using ProjOb.Query.Wrappers;
 using static ProjOb.Constants;
 
 namespace ProjOb.UI
@@ -68,7 +65,7 @@ namespace ProjOb.UI
                     Console.WriteLine("No logs to display\n");
                     Console.WriteLine("\nPress Any key to continue...");
                     Console.ReadKey();
-                    return; 
+                    return;
                 }
                 finally
                 {

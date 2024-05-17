@@ -1,5 +1,5 @@
-﻿using ProjOb.UI;
-using ProjOb.IO;
+﻿using ProjOb.IO;
+using ProjOb.UI;
 using static ProjOb.Constants;
 
 namespace ProjOb

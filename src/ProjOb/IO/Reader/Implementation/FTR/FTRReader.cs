@@ -13,7 +13,7 @@
         {
             if (!_stream.EndOfStream)
                 return _stream.ReadLine()!.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            else 
+            else
                 return null;
         }
 

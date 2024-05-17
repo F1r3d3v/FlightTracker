@@ -3,7 +3,7 @@
     public class Table : ITable
     {
         public int ColumnsCount { get => _headerNames.Count; }
-        public int RowsCount { get =>  _rowsData.Count; }
+        public int RowsCount { get => _rowsData.Count; }
 
         private readonly List<List<String>> _rowsData = [];
         private readonly List<String> _headerNames = [];
