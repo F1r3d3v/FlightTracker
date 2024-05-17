@@ -10,7 +10,7 @@ namespace ProjOb.Query.Wrappers
     {
         public ObjectAccessor(Object obj)
         {
-            _getValueMap.Add("ID", () => obj.ID.ToString());
+            _getValueTypeMap.Add("ID", () => obj.ID.ToString());
             _setValueMap.Add("ID", (String value) => obj.ID = UInt64.Parse(value));
         }
     }

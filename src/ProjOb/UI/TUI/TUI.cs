@@ -3,7 +3,6 @@ using ProjOb.IO;
 using ProjOb.Media;
 using ProjOb.Query;
 using ProjOb.Query.AST;
-using ProjOb.Query.Invoker;
 using ProjOb.Query.Wrappers;
 using static ProjOb.Constants;
 
@@ -105,23 +104,12 @@ namespace ProjOb.UI
                 TerminalHelper.SetCursorVisibility(false);
                 try
                 {
-                    Lexer l = new Lexer(str);
-                    Parser p = new Parser(l);
-                    ASTQueryNode root = p.Parse();
-
-                    QueryReceiver rec = new QueryReceiver(db);
-                    QueryInvoker inv = new QueryInvoker();
-                    var command = new DisplayCommand(rec, (root as DisplayNode)!);
-                    inv.SetCommand(command);
-                    inv.InvokeCommand();
-                    QueryResult? res = command.getResult();
-                    res?.Display();
+                    QueryStatement q = new QueryStatement(str, db);
+                    q.Execute()?.Display();
 
                     Console.WriteLine("Query Executed Successfully!");
                 }
-                catch (Exception e) when (e is InvalidTokenException ||
-                                          e is ParseTreeException || 
-                                          e is QueryExecutionException)
+                catch (Exception e)
                 {
                     TerminalHelper.MoveCursorToHome();
                     TerminalHelper.ClearScreen(TerminalHelper.ClearScreenType.FromCurToEnd);

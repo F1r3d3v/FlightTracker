@@ -10,10 +10,10 @@ namespace ProjOb.Query.Wrappers
     {
         public PassengerAccessor(Passenger passenger) : base(passenger)
         {
-            _getValueMap.Add("Class", () => passenger.Class);
+            _getValueTypeMap.Add("Class", () => passenger.Class);
             _setValueMap.Add("Class", (String value) => passenger.Class = value);
 
-            _getValueMap.Add("Miles", passenger.Miles.ToString);
+            _getValueTypeMap.Add("Miles", () => passenger.Miles.ToString());
             _setValueMap.Add("Miles", (String value) => passenger.Miles = UInt64.Parse(value));
         }
     }

@@ -15,5 +15,6 @@ namespace ProjOb.Query.Wrappers
         public IQueryAccessor Process(PassengerPlane passengerPlane) => new PassengerPlaneAccessor(passengerPlane);
         public IQueryAccessor Process(Airport airport) => new AirportAccessor(airport);
         public IQueryAccessor Process(Flight flight) => new FlightAccessor(flight);
+        public IQueryAccessor Process(WorldPosition position) => new WorldPositionAccessor(position);
     }
 }

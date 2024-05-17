@@ -10,10 +10,10 @@ namespace ProjOb.Query.Wrappers
     {
         public CrewAccessor(Crew crew) : base(crew)
         {
-            _getValueMap.Add("Practice", crew.Practice.ToString);
+            _getValueTypeMap.Add("Practice", () => crew.Practice.ToString());
             _setValueMap.Add("Practice", (String value) => crew.Practice = UInt16.Parse(value));
 
-            _getValueMap.Add("Role", () => crew.Role);
+            _getValueTypeMap.Add("Role", () => crew.Role);
             _setValueMap.Add("Role", (String value) => crew.Role = value);
         }
     }

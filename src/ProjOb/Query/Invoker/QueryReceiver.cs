@@ -1,6 +1,7 @@
-﻿using ProjOb.Objects;
+﻿using ProjOb.Exceptions;
+using ProjOb.Objects;
 using ProjOb.Query.Wrappers;
-using System.Collections.Generic;
+using System.Text;
 
 namespace ProjOb.Query.Invoker
 {
@@ -34,11 +35,38 @@ namespace ProjOb.Query.Invoker
                 IQueryAccessor accessor = obj.Apply(new AccessorVisitor());
                 Dictionary<String, String> varlistPair = [];
 
-                foreach (String var in accessor.GetFields())
+                if (varlist != null)
                 {
-                    String? value = accessor.GetValue(var);
-                    if (value != null && (varlist == null || varlist.Contains(var, StringComparer.OrdinalIgnoreCase)))
-                        varlistPair.Add(var, value);
+                    foreach (String var in varlist)
+                    {
+                        String? value = accessor.GetValue(var);
+
+                        // Keep case-sensitive label from case-insensitive string
+                        String[] split = var.Split('.');
+                        String[] fieldsNames = new String[split.Length];
+
+                        IEnumerable<String> fields = accessor.GetFields();
+                        var equal = (String x) => StringComparer.OrdinalIgnoreCase.Compare(x, split[0]) == 0;
+                        fieldsNames[0] = fields.Where(equal).First();
+
+                        for (int i = 1; (i < split.Length) && split.Length > 1; ++i)
+                        {
+                            fields = accessor.GetFields(split[i - 1]);
+
+                            equal = (String x) => StringComparer.OrdinalIgnoreCase.Compare(x, split[i]) == 0;
+                            fieldsNames[i] = fields.Where(equal).First();
+                        }
+
+                        varlistPair.Add(String.Join('.', fieldsNames), value ?? "Null");
+                    }
+                }
+                else
+                {
+                    foreach (String var in accessor.GetFields())
+                    {
+                        String? value = accessor.GetValue(var);
+                        varlistPair.Add(var, value ?? "Null");
+                    }
                 }
 
                 records.Add(varlistPair);

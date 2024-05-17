@@ -10,7 +10,7 @@ namespace ProjOb.Query.Wrappers
     {
         public CargoPlaneAccessor(CargoPlane cargoPlane) : base(cargoPlane)
         {
-            _getValueMap.Add("MaxLoad", cargoPlane.MaxLoad.ToString);
+            _getValueTypeMap.Add("MaxLoad", () =>  cargoPlane.MaxLoad.ToString());
             _setValueMap.Add("MaxLoad", (String value) => cargoPlane.MaxLoad = Single.Parse(value));
         }
     }
