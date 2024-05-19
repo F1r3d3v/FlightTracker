@@ -16,7 +16,10 @@
             _getValueTypeMap.Add("Country", () => airport.Country);
             _setValueMap.Add("Country", (String value) => airport.Country = value);
 
-            _accessorMap.Add("WorldPosition", new WorldPositionAccessor(new WorldPosition(airport.Latitude, airport.Longitude)));
+            _accessorMap.Add("WorldPosition", new PositionAccessor(
+                new Ref<Single>(() => airport.Longitude, (Single val) => airport.Longitude = val),
+                new Ref<Single>(() => airport.Latitude, (Single val) => airport.Latitude = val)
+            ));
         }
     }
 }

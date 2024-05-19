@@ -1,4 +1,4 @@
-﻿namespace ProjOb.Objects
+﻿namespace ProjOb
 {
     public enum ObjectClassEnum
     {

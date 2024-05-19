@@ -1,6 +1,6 @@
 ﻿using ProjOb.Exceptions;
-using ProjOb.Objects;
 using ProjOb.Query.AST;
+using ProjOb.Query.AST.Expression;
 
 namespace ProjOb.Query.Invoker
 {
@@ -22,11 +22,10 @@ namespace ProjOb.Query.Invoker
             {
                 _result = _receiver.DisplayAction(objClass, _node.Varlist?.Select(x => x.Value).ToArray(), (Object obj) =>
                 {
-                    if (_node.WhereExpression == null) return true;
-
-                    ASTExpressionVisitor visitor = new ASTExpressionVisitor(obj);
-                    _node.WhereExpression?.Visit(visitor);
-                    return visitor.Result != 0;
+                    if (_node.WhereExpression == null)
+                        return true;
+                    else
+                        return ExpressionEvaluator.Evaluate(_node.WhereExpression, obj) != 0;
                 });
             }
             else

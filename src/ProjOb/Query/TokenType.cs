@@ -3,8 +3,13 @@
     public enum TokenType
     {
         Whitespace,
-        Select,
+        Display,
         From,
+        Update,
+        Set,
+        Delete,
+        Add,
+        New,
         Where,
         Plus,
         Minus,

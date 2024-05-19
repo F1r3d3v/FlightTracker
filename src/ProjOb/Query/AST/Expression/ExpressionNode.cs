@@ -2,7 +2,7 @@
 
 namespace ProjOb.Query
 {
-    public abstract class ASTExpressionNode : IVisitableExpressionAST
+    public abstract class ExpressionNode : IVisitableExpressionAST
     {
         public abstract void Visit(IExpressionVisitorAST visitor);
     }

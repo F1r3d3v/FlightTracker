@@ -59,7 +59,7 @@
                     String.Join('+', columnsMaxWidth.Select(x => new String('-', x + 2))) // +2 for left & right padding
                 };
 
-                for (int j = 1; j < lines.Length; ++j)
+                for (int j = 1; j < lines.Length - 1; ++j)
                 {
                     formattedLines.Add(FormatRow(lines[j], true));
                 }

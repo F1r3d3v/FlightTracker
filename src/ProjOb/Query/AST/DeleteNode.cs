@@ -1,15 +1,13 @@
 ﻿namespace ProjOb.Query.AST
 {
-    public class DisplayNode : QueryNode
+    public class DeleteNode : QueryNode
     {
         public IdentifierNode ObjectClass { get; private set; }
-        public List<IdentifierNode>? Varlist { get; private set; }
         public ExpressionNode? WhereExpression { get; private set; }
 
-        public DisplayNode(IdentifierNode Object, List<IdentifierNode>? varlist, ExpressionNode? expression)
+        public DeleteNode(IdentifierNode objectClass, ExpressionNode? expression)
         {
-            ObjectClass = Object;
-            Varlist = varlist;
+            ObjectClass = objectClass;
             WhereExpression = expression;
         }
 

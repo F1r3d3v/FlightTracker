@@ -1,6 +1,6 @@
 ﻿namespace ProjOb.Query.AST
 {
-    public class IdentifierNode : ASTExpressionNode
+    public class IdentifierNode : ExpressionNode
     {
         public String Value { get; set; }
 

@@ -16,7 +16,7 @@ namespace ProjOb.Query
             ITable table = new TableDecorator(new Table());
             if (_result.Count == 0)
             {
-                Console.WriteLine("Output is empty");
+                Console.WriteLine("\nOutput is empty");
                 return;
             }
 

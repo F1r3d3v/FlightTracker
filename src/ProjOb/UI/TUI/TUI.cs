@@ -104,7 +104,7 @@ namespace ProjOb.UI
                     QueryStatement q = new QueryStatement(str, db);
                     q.Execute()?.Display();
 
-                    Console.WriteLine("Query Executed Successfully!");
+                    Console.WriteLine("\nQuery Executed Successfully!");
                 }
                 catch (Exception e)
                 {

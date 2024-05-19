@@ -1,15 +1,15 @@
 ﻿namespace ProjOb.Query.AST
 {
-    public class DisplayNode : QueryNode
+    public class UpdateNode : QueryNode
     {
         public IdentifierNode ObjectClass { get; private set; }
-        public List<IdentifierNode>? Varlist { get; private set; }
+        public List<KeyValuePair<String, String>> SetList { get; private set; }
         public ExpressionNode? WhereExpression { get; private set; }
 
-        public DisplayNode(IdentifierNode Object, List<IdentifierNode>? varlist, ExpressionNode? expression)
+        public UpdateNode(IdentifierNode objectClass, List<KeyValuePair<String, String>> setList, ExpressionNode? expression)
         {
-            ObjectClass = Object;
-            Varlist = varlist;
+            ObjectClass = objectClass;
+            SetList = setList;
             WhereExpression = expression;
         }
 

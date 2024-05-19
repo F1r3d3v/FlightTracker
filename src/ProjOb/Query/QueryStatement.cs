@@ -17,9 +17,9 @@ namespace ProjOb.Query
         {
             Lexer l = new Lexer(_query);
             Parser p = new Parser(l);
-            ASTQueryNode root = p.Parse();
+            QueryNode root = p.Parse();
 
-            ASTQueryVisitor visitor = new ASTQueryVisitor(_db);
+            QueryVisitor visitor = new QueryVisitor(_db);
             root.Visit(visitor);
 
             return visitor.Result;

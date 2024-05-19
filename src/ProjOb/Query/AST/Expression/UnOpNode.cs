@@ -6,12 +6,12 @@
         CondNot
     }
 
-    public class UnOpNode : ASTExpressionNode
+    public class UnOpNode : ExpressionNode
     {
-        public ASTExpressionNode Arg { get; private set; }
+        public ExpressionNode Arg { get; private set; }
         public UnOpType Type { get; private set; }
 
-        public UnOpNode(ASTExpressionNode arg, UnOpType type)
+        public UnOpNode(ExpressionNode arg, UnOpType type)
         {
             Arg = arg;
             Type = type;
