@@ -1,4 +1,4 @@
-﻿namespace ProjOb.Query.Wrappers
+﻿namespace ProjOb.Accessors
 {
     public class CargoAccessor : ObjectAccessor
     {

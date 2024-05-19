@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace ProjOb.Query.Wrappers
+namespace ProjOb.Accessors
 {
     public abstract class BaseAccessor : IQueryAccessor
     {

@@ -1,7 +1,6 @@
-﻿using ProjOb.Query.AST.Expression;
-using System.Numerics;
+﻿using System.Numerics;
 
-namespace ProjOb.Query.AST
+namespace ProjOb.Query.AST.Expression
 {
     public enum BinOpType
     {

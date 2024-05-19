@@ -1,4 +1,4 @@
-﻿namespace ProjOb.Query.AST
+﻿namespace ProjOb.Query.AST.Expression
 {
     public interface IVisitableExpressionAST
     {

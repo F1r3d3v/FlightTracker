@@ -1,4 +1,6 @@
-﻿namespace ProjOb.Query.AST
+﻿using ProjOb.Query.AST.Expression;
+
+namespace ProjOb.Query.AST
 {
     public class UpdateNode : QueryNode
     {

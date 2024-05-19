@@ -1,5 +1,5 @@
-﻿using ProjOb.Components;
-using ProjOb.Query.Wrappers;
+﻿using ProjOb.Accessors;
+using ProjOb.Components;
 
 namespace ProjOb.Query.Invoker
 {

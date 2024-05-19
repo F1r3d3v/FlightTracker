@@ -1,6 +1,4 @@
-﻿using ProjOb.Query.AST;
-
-namespace ProjOb.Query
+﻿namespace ProjOb.Query.AST.Expression
 {
     public abstract class ExpressionNode : IVisitableExpressionAST
     {

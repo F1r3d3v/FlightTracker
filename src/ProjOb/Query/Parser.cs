@@ -1,5 +1,6 @@
 ﻿using ProjOb.Exceptions;
 using ProjOb.Query.AST;
+using ProjOb.Query.AST.Expression;
 
 namespace ProjOb.Query
 {

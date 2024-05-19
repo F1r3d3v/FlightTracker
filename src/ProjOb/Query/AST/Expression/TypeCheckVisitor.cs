@@ -1,8 +1,7 @@
-﻿using ProjOb.Exceptions;
-using ProjOb.Query.AST.Expression;
-using ProjOb.Query.Wrappers;
+﻿using ProjOb.Accessors;
+using ProjOb.Exceptions;
 
-namespace ProjOb.Query.AST
+namespace ProjOb.Query.AST.Expression
 {
     public class TypeCheckVisitor : IExpressionVisitorAST
     {
