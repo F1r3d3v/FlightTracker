@@ -16,6 +16,8 @@
     {
         public PositionAccessor(Ref<Single> longitude, Ref<Single> latitude)
         {
+            _isStruct = true;
+
             _getValueTypeMap.Add("Long", () => longitude.Value.ToString());
             _setValueMap.Add("Long", (String value) => longitude.Value = Single.Parse(value));
 

@@ -2,8 +2,10 @@
 {
     public class PersonAccessor : ObjectAccessor
     {
-        public PersonAccessor(Person person) : base(person)
+        public PersonAccessor(Person? person) : base(person)
         {
+            if (person == null) return;
+
             _getValueTypeMap.Add("Name", () => person.Name);
             _setValueMap.Add("Name", (String value) => person.Name = value);
 

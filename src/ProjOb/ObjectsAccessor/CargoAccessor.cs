@@ -2,8 +2,10 @@
 {
     public class CargoAccessor : ObjectAccessor
     {
-        public CargoAccessor(Cargo cargo) : base(cargo)
+        public CargoAccessor(Cargo? cargo) : base(cargo)
         {
+            if (cargo == null) return;
+
             _getValueTypeMap.Add("Weight", () => cargo.Weight.ToString());
             _setValueMap.Add("Weight", (String value) => cargo.Weight = Single.Parse(value));
 

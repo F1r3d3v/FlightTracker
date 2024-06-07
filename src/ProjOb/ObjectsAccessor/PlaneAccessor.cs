@@ -2,8 +2,10 @@
 {
     public class PlaneAccessor : ObjectAccessor
     {
-        public PlaneAccessor(Plane plane) : base(plane)
+        public PlaneAccessor(Plane? plane) : base(plane)
         {
+            if (plane == null) return;
+
             _getValueTypeMap.Add("Serial", () => plane.Serial);
             _setValueMap.Add("Serial", (String value) => plane.Serial = value);
 

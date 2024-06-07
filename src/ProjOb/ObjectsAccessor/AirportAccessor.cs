@@ -2,8 +2,10 @@
 {
     public class AirportAccessor : ObjectAccessor
     {
-        public AirportAccessor(Airport airport) : base(airport)
+        public AirportAccessor(Airport? airport) : base(airport)
         {
+            if (airport == null) return;
+
             _getValueTypeMap.Add("Name", () => airport.Name);
             _setValueMap.Add("Name", (String value) => airport.Name = value);
 

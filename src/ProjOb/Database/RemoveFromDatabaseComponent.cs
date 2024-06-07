@@ -37,6 +37,9 @@
         public void Process(Airport airport)
         {
             _database.Airports.Remove(airport.ID);
+            RemoveReferenceComponent comp = new RemoveReferenceComponent(airport);
+            foreach (Object obj in _database.GetObjects())
+                obj.Apply(comp);
         }
 
         public void Process(Flight flight)

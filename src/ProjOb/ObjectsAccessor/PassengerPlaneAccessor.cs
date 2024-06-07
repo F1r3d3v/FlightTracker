@@ -2,8 +2,10 @@
 {
     public class PassengerPlaneAccessor : PlaneAccessor
     {
-        public PassengerPlaneAccessor(PassengerPlane passengerPlane) : base(passengerPlane)
+        public PassengerPlaneAccessor(PassengerPlane? passengerPlane) : base(passengerPlane)
         {
+            if (passengerPlane == null) return;
+
             _getValueTypeMap.Add("FirstClassSize", () => passengerPlane.FirstClassSize.ToString());
             _setValueMap.Add("FirstClassSize", (String value) => passengerPlane.FirstClassSize = UInt16.Parse(value));
 

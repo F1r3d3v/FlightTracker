@@ -93,7 +93,7 @@ namespace ProjOb.Query.Invoker
                 IQueryAccessor accessor = obj.Apply(new AccessorVisitor());
                 foreach (var pair in setlist)
                 {
-                    accessor.SetValue(pair.Key, pair.Value);
+                    accessor.SetValue(pair.Key, pair.Value, _db);
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace ProjOb.Query.Invoker
             IQueryAccessor accessor = obj.Apply(new AccessorVisitor());
             foreach (var pair in setlist)
             {
-                accessor.SetValue(pair.Key, pair.Value);
+                accessor.SetValue(pair.Key, pair.Value, _db);
             }
             obj.Apply(new AddToDatabaseComponent(_db));
         }

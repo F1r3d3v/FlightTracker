@@ -2,8 +2,10 @@
 {
     public class PassengerAccessor : PersonAccessor
     {
-        public PassengerAccessor(Passenger passenger) : base(passenger)
+        public PassengerAccessor(Passenger? passenger) : base(passenger)
         {
+            if (passenger == null) return;
+
             _getValueTypeMap.Add("Class", () => passenger.Class);
             _setValueMap.Add("Class", (String value) => passenger.Class = value);
 
