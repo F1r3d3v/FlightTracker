@@ -2,12 +2,10 @@
 {
     public class CargoPlaneAccessor : PlaneAccessor
     {
-        public CargoPlaneAccessor(CargoPlane? cargoPlane) : base(cargoPlane)
+        public CargoPlaneAccessor(Ref<CargoPlane?> cargoPlane) : base(new Ref<Plane?>(() => cargoPlane.Value, (x) => cargoPlane.Value = (CargoPlane?)x))
         {
-            if (cargoPlane == null) return;
-
-            _getValueTypeMap.Add("MaxLoad", () => cargoPlane.MaxLoad.ToString());
-            _setValueMap.Add("MaxLoad", (String value) => cargoPlane.MaxLoad = Single.Parse(value));
+            _getValueTypeMap.Add("MaxLoad", () => cargoPlane.Value!.MaxLoad.ToString());
+            _setValueMap.Add("MaxLoad", (String value) => cargoPlane.Value!.MaxLoad = Single.Parse(value));
         }
     }
 }

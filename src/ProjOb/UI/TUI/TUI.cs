@@ -152,7 +152,7 @@ namespace ProjOb.UI
 
             var opts = new Dictionary<string, Action>()
             {
-                { "Flight Tracker", () => { FlightTracker.RunGUI(db); finishing = false; }  },
+                { "Flight Tracker", () => { Task.Run(() => FlightTracker.RunGUI(db)); finishing = false; }  },
                 { "Query", () => { queryDel(); finishing = false; } },
                 { "Report", () => { reportDel(db); finishing = false; } },
                 { "Logs", () => { SelectionMenu.CreateSelectionMenu(optsLogs, "Logs"); finishing = false; } },

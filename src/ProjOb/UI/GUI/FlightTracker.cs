@@ -11,6 +11,8 @@ namespace ProjOb.UI
     {
         public static void RunGUI(Database db)
         {
+            { if ((Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime) && lifetime.MainWindow!.IsLoaded) return; }
+
             Task t = Task.Run(() => Runner.Run());
 
             IFlightsGUIDataDecorator positionDecorator = new DefaultFlightsGUIDataDecorator();
@@ -22,7 +24,6 @@ namespace ProjOb.UI
             {
                 FlightsGUIData data = wrapper.ConvertToFlightsGUIData(e.SignalTime, db);
                 Runner.UpdateGUI(data);
-                Console.WriteLine($"Current Time: {e.SignalTime:HH:mm:ss}");
             };
             timer.AutoReset = true;
 
@@ -31,7 +32,6 @@ namespace ProjOb.UI
 
             FlightsGUIData data = wrapper.ConvertToFlightsGUIData(DateTime.Now, db);
             Runner.UpdateGUI(data);
-            Console.WriteLine($"Current Time: {DateTime.Now:HH:mm:ss}");
             timer.Enabled = true;
 
             var window = (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)!.MainWindow!;

@@ -7,12 +7,12 @@ namespace ProjOb.Accessors
         protected readonly Dictionary<String, Func<String?>> _getValueTypeMap = new(StringComparer.OrdinalIgnoreCase);
         protected readonly Dictionary<String, Action<String>> _setValueMap = new(StringComparer.OrdinalIgnoreCase);
         protected readonly Dictionary<String, IQueryAccessor> _accessorMap = new(StringComparer.OrdinalIgnoreCase);
-        protected Object? _value;
+        protected Ref<Object?> _value;
         protected bool _isStruct = false;
 
         public virtual String? GetValue(String value)
         {
-            if (_value == null && !_isStruct) return null;
+            if (!_isStruct && _value.Value == null) return null;
             String[] split = value.Split('.', 2);
             if (_getValueTypeMap.TryGetValue(value, out Func<String?>? fun))
             {
@@ -42,6 +42,7 @@ namespace ProjOb.Accessors
 
         public virtual void SetValue(String param, String value, Database db)
         {
+            if (!_isStruct && param != "*" && _value.Value == null) return;
             String[] split = param.Split('.', 2);
             if (_setValueMap.TryGetValue(param, out Action<String>? fun))
             {
@@ -56,9 +57,17 @@ namespace ProjOb.Accessors
             }
             else if (param == "*")
             {
-                _value = db.GetObject(UInt64.Parse(value));
-                if (_value == null)
+                if (UInt64.TryParse(value, out UInt64 id))
                 {
+                    _value.Value = db.GetObject(id);
+                    if (_value.Value == null)
+                        throw new ArgumentException($"No object of ID: {id} exists in a database");
+                }
+                else if (_isStruct)
+                {
+                    if (value[0] != '{' || value[^1] != '}')
+                        throw new ArgumentException("Invalid struct format");
+
                     int counter = 0;
                     String[] values = value[1..^1].Split(',');
                     var fields = GetFields();

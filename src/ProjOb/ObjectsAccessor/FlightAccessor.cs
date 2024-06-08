@@ -2,27 +2,25 @@
 {
     public class FlightAccessor : ObjectAccessor
     {
-        public FlightAccessor(Flight? flight) : base(flight)
+        public FlightAccessor(Ref<Flight?> flight) : base(new Ref<Object?>(() => flight.Value, (x) => flight.Value = (Flight?)x))
         {
-            _accessorMap.Add("Origin", new AirportAccessor(flight?.Origin));
-            _accessorMap.Add("Target", new AirportAccessor(flight?.Target));
-            _accessorMap.Add("Plane", new PlaneAccessor(flight?.Plane));
+            _getValueTypeMap.Add("TakeoffTime", () => flight.Value!.TakeoffTime.ToString());
+            _setValueMap.Add("TakeoffTime", (String value) => flight.Value!.TakeoffTime = TimeSpan.Parse(value));
 
-            if (flight == null) return;
+            _getValueTypeMap.Add("LandingTime", () => flight.Value!.LandingTime.ToString());
+            _setValueMap.Add("LandingTime", (String value) => flight.Value!.LandingTime = TimeSpan.Parse(value));
 
-            _getValueTypeMap.Add("TakeoffTime", () => flight.TakeoffTime.ToString());
-            _setValueMap.Add("TakeoffTime", (String value) => flight.TakeoffTime = TimeSpan.Parse(value));
-
-            _getValueTypeMap.Add("LandingTime", () => flight.LandingTime.ToString());
-            _setValueMap.Add("LandingTime", (String value) => flight.LandingTime = TimeSpan.Parse(value));
-
-            _getValueTypeMap.Add("AMSL", () => flight.AMSL.ToString());
-            _setValueMap.Add("AMSL", (String value) => flight.AMSL = Single.Parse(value));
+            _getValueTypeMap.Add("AMSL", () => flight.Value!.AMSL.ToString());
+            _setValueMap.Add("AMSL", (String value) => flight.Value!.AMSL = Single.Parse(value));
 
             _accessorMap.Add("WorldPosition", new PositionAccessor(
-                new Ref<Single>(() => flight.Longitude, (Single val) => flight.Longitude = val),
-                new Ref<Single>(() => flight.Latitude, (Single val) => flight.Latitude = val)
+                new Ref<Single>(() => flight.Value!.Longitude, (Single val) => flight.Value!.Longitude = val),
+                new Ref<Single>(() => flight.Value!.Latitude, (Single val) => flight.Value!.Latitude = val)
             ));
+
+            _accessorMap.Add("Plane", new PlaneAccessor(new Ref<Plane?>(() => flight.Value!.Plane, (x) => flight.Value!.Plane = x)));
+            _accessorMap.Add("Origin", new AirportAccessor(new Ref<Airport?>(() => flight.Value!.Origin, (x) => flight.Value!.Origin = x)));
+            _accessorMap.Add("Target", new AirportAccessor(new Ref<Airport?>(() => flight.Value!.Target, (x) => flight.Value!.Target = x)));
         }
     }
 }
